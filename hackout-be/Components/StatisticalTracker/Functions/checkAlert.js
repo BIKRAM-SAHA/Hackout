@@ -24,6 +24,7 @@ module.exports = async (window_size = 3, threshold, standard_min, standard_max, 
                 return 'alert';
             }
         }
+        return 'normal';
     }
     catch (err) {
         return { success: false, data: err };
