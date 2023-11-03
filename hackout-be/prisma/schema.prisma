@@ -10,6 +10,7 @@ datasource db {
 model patient {
   pk_patient_id Int     @id @unique(map: "pk_patient_id") @default(autoincrement())
   age           String  @db.VarChar(255)
+  fk_tracker_id Int
   doctor_name   String? @db.VarChar(255)
   email         String  @db.VarChar(255)
   fk_doctor_id  Int?
@@ -18,9 +19,9 @@ model patient {
   token         String? @db.Text
   doctor        doctor? @relation(fields: [fk_doctor_id], references: [pk_doctor_id], onDelete: Cascade, map: "patient_doctor_id")
   disease       disease[]
-  map_tracker_patient map_tracker_patient[]
   map_contraction_patient map_contraction_patient[]
   nutrition      nutrition[]
+  tracker       tracker? @relation(fields: [fk_tracker_id], references: [pk_tracker_id], onDelete: Cascade, map: "patient_tracker_id")
   @@index([fk_doctor_id], map: "patient_doctor_id")
 }
 
@@ -109,19 +110,11 @@ model thyroid_function{
   tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 
-model iron_level {
-  pk_il        Int      @id @default(autoincrement())
+model haemoglobin_level {
+  pk_hl        Int      @id @default(autoincrement())
   tracker_id Int
   date      DateTime @default(now())
-  iron   String
-  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
-}
-
-model vitamin_d_level {
-  id        Int      @id @default(autoincrement())
-  tracker_id Int
-  date      DateTime @default(now())
-  vitamin_d   String
+  haemoglobin   String
   tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 
@@ -135,19 +128,8 @@ model tracker {
   amniotic_fluid_index amniotic_fluid_index[]
   blood_sugar_level blood_sugar_level[]
   thyroid_function thyroid_function[]
-  iron_level iron_level[]
-  vitamin_d_level vitamin_d_level[]
-  map_tracker_patient map_tracker_patient[]
-}
-
-model map_tracker_patient {
-  id            Int @id @unique(map: "pk_map_tracker_patient_id") @default(autoincrement())
-  fk_patient_id Int
-  fk_tracker_id Int
-  patient       patient? @relation(fields: [fk_patient_id], references: [pk_patient_id], onDelete: Cascade, map: "patient_map_patient_id")
-  tracker       tracker? @relation(fields: [fk_tracker_id], references: [pk_tracker_id], onDelete: Cascade, map: "patient_tracker_id")
-  @@index([fk_patient_id], map: "patient_map_patient_id")
-  @@index([fk_tracker_id], map: "patient_tracker_id")
+  haemoglobin_level haemoglobin_level[]
+  patient patient[]
 }
 
 model contraction {
