@@ -44,16 +44,99 @@ model disease {
   @@index([fk_patient_id], map: "disease_patient_id")
 }
 
+model maternal_weight {
+  pk_mw        Int      @id @default(autoincrement())
+  tracker_id  Int
+  date      DateTime @default(now())
+  weight    String 
+
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model blood_pressure {
+  pk_bp        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  bloodpr   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model fetal_movement {
+  pk_fm        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  movement   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model fetal_heart_rate {
+  pk_fhr        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  fetal_heart_rate   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model waist_circumference {
+  pk_wc       Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  circumference   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model amniotic_fluid_index {
+  pk_afx        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  amniotic_fluid_index   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model blood_sugar_level {
+  pk_bs        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  blood_sugar   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model thyroid_function{
+  pk_tf     Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  thyroid   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model iron_level {
+  pk_il        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  iron   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model vitamin_d_level {
+  id        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  vitamin_d   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
 model tracker {
   pk_tracker_id   Int     @id @unique(map: "pk_tracker_id") @default(autoincrement())
-  gestational_age Int?
-  weight          Int?
-  belly_size      Int?
-  blood_pressure  Int?
-  fundal_height   Int?
-  fetal_movement  Int?
-  edema           String?
-  heart_rate      Int?
+  maternal_weight maternal_weight[]
+  blood_pressure blood_pressure[]
+  fetal_movement fetal_movement[]
+  fetal_heart_rate fetal_heart_rate[]
+  waist_circumference waist_circumference[]
+  amniotic_fluid_index amniotic_fluid_index[]
+  blood_sugar_level blood_sugar_level[]
+  thyroid_function thyroid_function[]
+  iron_level iron_level[]
+  vitamin_d_level vitamin_d_level[]
   map_tracker_patient map_tracker_patient[]
 }
 
