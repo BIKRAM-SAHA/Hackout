@@ -137,7 +137,7 @@ model maternal_weight {
   pk_mw      Int      @id @default(autoincrement())
   tracker_id Int
   date       DateTime @db.Date
-  weight     String
+  weight     Decimal  @db.Decimal(10, 0)
 
   tracker tracker @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
@@ -146,7 +146,7 @@ model blood_pressure {
   pk_bp      Int      @id @default(autoincrement())
   tracker_id Int
   date       DateTime @db.Date
-  bloodpr    String
+  bloodpr    Decimal  @db.Decimal(10, 0)
   tracker    tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 
@@ -154,7 +154,7 @@ model fetal_movement {
   pk_fm      Int      @id @default(autoincrement())
   tracker_id Int
   date       DateTime @db.Date
-  movement   String
+  movement   Int
   tracker    tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 
@@ -162,7 +162,7 @@ model fetal_heart_rate {
   pk_fhr           Int      @id @default(autoincrement())
   tracker_id       Int
   date             DateTime @db.Date
-  fetal_heart_rate String
+  fetal_heart_rate Decimal  @db.Decimal(10, 0)
   tracker          tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 
@@ -170,7 +170,7 @@ model waist_circumference {
   pk_wc         Int      @id @default(autoincrement())
   tracker_id    Int
   date          DateTime @db.Date
-  circumference String
+  circumference Decimal  @db.Decimal(10, 0)
   tracker       tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 
@@ -178,7 +178,7 @@ model amniotic_fluid_index {
   pk_afx               Int      @id @default(autoincrement())
   tracker_id           Int
   date                 DateTime @db.Date
-  amniotic_fluid_index String
+  amniotic_fluid_index Decimal  @db.Decimal(10, 0)
   tracker              tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 
@@ -186,7 +186,7 @@ model blood_sugar_level {
   pk_bs       Int      @id @default(autoincrement())
   tracker_id  Int
   date        DateTime @db.Date
-  blood_sugar String
+  blood_sugar Decimal  @db.Decimal(10, 0)
   tracker     tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 
@@ -194,7 +194,7 @@ model thyroid_function {
   pk_tf      Int      @id @default(autoincrement())
   tracker_id Int
   date       DateTime @db.Date
-  thyroid    String
+  thyroid    Decimal  @db.Decimal(10, 0)
   tracker    tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 
@@ -202,7 +202,7 @@ model haemoglobin_level {
   pk_hl       Int      @id @default(autoincrement())
   tracker_id  Int
   date        DateTime @db.Date
-  haemoglobin String
+  haemoglobin Decimal  @db.Decimal(10, 0)
   tracker     tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 
