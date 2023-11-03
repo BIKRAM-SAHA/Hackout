@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "hack4bengal backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "GouravChaki and GargeeBhowmick",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.16.2",
+    "axios": "^1.4.0",
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "date": "^2.0.2",
+    "express": "^4.18.2",
+    "json-web-token": "^3.2.0",
+    "jsonwebtoken": "^9.0.1",
+    "mysql": "^2.18.1",
+    "salt": "^0.5.5"
+  },
+  "devDependencies": {
+    "prisma": "^4.16.2"
+  }
+}

@@ -1,0 +1,184 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model patient {
+  pk_patient_id Int     @id @unique(map: "pk_patient_id") @default(autoincrement())
+  age           String  @db.VarChar(255)
+  doctor_name   String? @db.VarChar(255)
+  email         String  @db.VarChar(255)
+  fk_doctor_id  Int?
+  name          String  @db.VarChar(255)
+  password      String  @db.VarChar(255)
+  token         String? @db.Text
+  doctor        doctor? @relation(fields: [fk_doctor_id], references: [pk_doctor_id], onDelete: Cascade, map: "patient_doctor_id")
+  disease       disease[]
+  map_tracker_patient map_tracker_patient[]
+  map_contraction_patient map_contraction_patient[]
+  nutrition      nutrition[]
+  @@index([fk_doctor_id], map: "patient_doctor_id")
+}
+
+model doctor {
+  pk_doctor_id Int     @id @unique(map: "pk_doctor_id") @default(autoincrement())
+  name         String  @db.VarChar(255)
+  age          String  @db.VarChar(255)
+  email        String  @db.VarChar(255)
+  password     String  @db.VarChar(255)
+  token        String? @db.Text
+  patient      patient[]
+}
+
+model disease {
+  pk_disease_id Int      @id @unique(map: "pk_disease_id") @default(autoincrement())
+  fk_patient_id Int
+  disease_name  String?  @db.VarChar(255)
+  drug_name     String?  @db.VarChar(255)
+  side_effect   String?  @db.VarChar(255)
+  patient       patient? @relation(fields: [fk_patient_id], references: [pk_patient_id], onDelete: Cascade, map: "patient_disease_id")
+  @@index([fk_patient_id], map: "disease_patient_id")
+}
+
+model maternal_weight {
+  pk_mw        Int      @id @default(autoincrement())
+  tracker_id  Int
+  date      DateTime @default(now())
+  weight    String 
+
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model blood_pressure {
+  pk_bp        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  bloodpr   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model fetal_movement {
+  pk_fm        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  movement   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model fetal_heart_rate {
+  pk_fhr        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  fetal_heart_rate   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model waist_circumference {
+  pk_wc       Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  circumference   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model amniotic_fluid_index {
+  pk_afx        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  amniotic_fluid_index   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model blood_sugar_level {
+  pk_bs        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  blood_sugar   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model thyroid_function{
+  pk_tf     Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  thyroid   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model iron_level {
+  pk_il        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  iron   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model vitamin_d_level {
+  id        Int      @id @default(autoincrement())
+  tracker_id Int
+  date      DateTime @default(now())
+  vitamin_d   String
+  tracker   tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
+}
+
+model tracker {
+  pk_tracker_id   Int     @id @unique(map: "pk_tracker_id") @default(autoincrement())
+  maternal_weight maternal_weight[]
+  blood_pressure blood_pressure[]
+  fetal_movement fetal_movement[]
+  fetal_heart_rate fetal_heart_rate[]
+  waist_circumference waist_circumference[]
+  amniotic_fluid_index amniotic_fluid_index[]
+  blood_sugar_level blood_sugar_level[]
+  thyroid_function thyroid_function[]
+  iron_level iron_level[]
+  vitamin_d_level vitamin_d_level[]
+  map_tracker_patient map_tracker_patient[]
+}
+
+model map_tracker_patient {
+  id            Int @id @unique(map: "pk_map_tracker_patient_id") @default(autoincrement())
+  fk_patient_id Int
+  fk_tracker_id Int
+  patient       patient? @relation(fields: [fk_patient_id], references: [pk_patient_id], onDelete: Cascade, map: "patient_map_patient_id")
+  tracker       tracker? @relation(fields: [fk_tracker_id], references: [pk_tracker_id], onDelete: Cascade, map: "patient_tracker_id")
+  @@index([fk_patient_id], map: "patient_map_patient_id")
+  @@index([fk_tracker_id], map: "patient_tracker_id")
+}
+
+model contraction {
+  pk_contraction_id Int    @id @unique(map: "pk_contraction_id") @default(autoincrement())
+  start_time        DateTime 
+  end_time          DateTime
+  time_apart        DateTime
+  length            DateTime
+  map_contraction_patient map_contraction_patient[]
+}
+
+model map_contraction_patient {
+  id                Int @id @unique(map: "pk_map_contraction_patient_id") @default(autoincrement())
+  fk_patient_id     Int
+  fk_contraction_id Int
+  patient       patient? @relation(fields: [fk_patient_id], references: [pk_patient_id], onDelete: Cascade, map: "map_patient_contraction_id")
+  contraction   contraction? @relation(fields: [fk_contraction_id], references: [pk_contraction_id], onDelete: Cascade, map: "patient_map_contraction_patient_id")
+  @@index([fk_contraction_id], map: "map_patient_contraction_id")
+  @@index([fk_patient_id], map: "patient_map_contraction_patient_id")
+}
+
+model nutrition{
+  pk_nutrition_id Int    @id @unique(map: "pk_nutrition_id") @default(autoincrement())
+  weight          Int    
+  height          Int    
+  bmi             Int    
+  normal_scale    Int?
+  category        String?
+  week_no         Int
+  trimester       Int
+  fk_patient_id   Int
+  patient       patient? @relation(fields: [fk_patient_id], references: [pk_patient_id], onDelete: Cascade, map: "map_patient_nutrition_id")
+  @@index([fk_patient_id], map: "map_patient_nutrition_id")
+}
