@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
     try {
         const patient = await prisma.patient.findFirst({
             where: {
-                patient_id: patient_id
+                pk_patient_id: patient_id
             }
             }
         );
@@ -44,6 +44,14 @@ module.exports = async (req, res) => {
            }else{
             await helper('maternal_weight','update',tracker_id,'maternal_weight',maternal_weight,date);
            }  
+           await prisma.patient.update({
+            where:{
+                pk_patient_id : patient_id,
+            },
+            data:{
+                maternal_weight : maternal_weight,
+            }
+           })
         }
         if(blood_pressure){
             let mw = await helper('blood_pressure','findFirst',tracker_id,'bloodpr',blood_pressure,date)
