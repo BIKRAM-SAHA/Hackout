@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const { PrismaClient } = require("@prisma/client");
-const helper = require("./Components/helper");
+const helper = require("./Functions/helper");
 const prisma = new PrismaClient();
 
 module.exports = async (req, res) => {
