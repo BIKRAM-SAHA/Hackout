@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
               await helper('maternal_weight','create',tracker_id,'maternal_weight',maternal_weight,date);
            }else{
             await helper('maternal_weight','update',tracker_id,'maternal_weight',maternal_weight,date);
-           }  
+           }
            await prisma.patient.update({
             where:{
                 pk_patient_id : patient_id,
