@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
     try {
         const patient = await prisma.patient.findFirst({
             where: {
-                patient_id: patient_id
+                pk_patient_id: patient_id
             }
             }
         );
@@ -44,41 +44,107 @@ module.exports = async (req, res) => {
            }else{
             await helper('maternal_weight','update',tracker_id,'maternal_weight',maternal_weight,date);
            }  
+           await prisma.patient.update({
+            where:{
+                pk_patient_id : patient_id,
+            },
+            data:{
+                maternal_weight : maternal_weight,
+            }
+           })
         }
         if(blood_pressure){
-            let mw = await helper('blood_pressure','findFirst',tracker_id,'bloodpr',maternal_weight,date)
+            let mw = await helper('blood_pressure','findFirst',tracker_id,'bloodpr',blood_pressure,date)
             if(mw.success==false) throw new Error(mw.data)
             if(!mw){
-               await helper('blood_pressure','create',tracker_id,'bloodpr',maternal_weight,date);
+               await helper('blood_pressure','create',tracker_id,'bloodpr',blood_pressure,date);
             }else{
-             await helper('blood_pressure','update',tracker_id,'bloodpr',maternal_weight,date);
+             await helper('blood_pressure','update',tracker_id,'bloodpr',blood_pressure,date);
             }  
          }
+
+
          if(fetal_movement){
-            let mw = await helper('fetal_movement','findFirst',tracker_id,'movement',maternal_weight,date)
+            let mw = await helper('fetal_movement','findFirst',tracker_id,'movement',fetal_movement,date)
             if(mw.success==false) throw new Error(mw.data)
             if(!mw){
-               await helper('fetal_movement','create',tracker_id,'movement',maternal_weight,date);
+               await helper('fetal_movement','create',tracker_id,'movement',fetal_movement,date);
             }else{
-             await helper('fetal_movement','update',tracker_id,'movement',maternal_weight,date);
+             await helper('fetal_movement','update',tracker_id,'movement',fetal_movement,date);
             }  
          }
+
+
          if(fetal_heart_rate){
-            let mw = await helper('fetal_heart_rate','findFirst',tracker_id,'fetal_heart_rate',maternal_weight,date)
+            let mw = await helper('fetal_heart_rate','findFirst',tracker_id,'fetal_heart_rate',fetal_heart_rate,date)
             if(mw.success==false) throw new Error(mw.data)
             if(!mw){
-               await helper('fetal_heart_rate','create',tracker_id,'fetal_heart_rate',maternal_weight,date);
+               await helper('fetal_heart_rate','create',tracker_id,'fetal_heart_rate',fetal_heart_rate,date);
             }else{
-             await helper('blood_pressure','update',tracker_id,'bloodpr',maternal_weight,date);
+             await helper('fetal_heart','update',tracker_id,'fetal_heart_rate',fetal_heart_rate,date);
             }  
          }
+
+         if(waist_circumference){
+            let mw = await helper('waist_circumference','findFirst',tracker_id,'circumference',waist_circumference,date)
+            if(mw.success==false) throw new Error(mw.data)
+            if(!mw){
+               await helper('waist_circumference','create',tracker_id,'circumference',waist_circumference,date);
+            }else{
+             await helper('waist_circumference','update',tracker_id,'circumference',waist_circumference,date);
+            }  
+         }
+
+         if(amniotic_fluid_index){
+            let mw = await helper('amniotic_fluid_index','findFirst',tracker_id,'amniotic_fluid_index',amniotic_fluid_index,date)
+            if(mw.success==false) throw new Error(mw.data)
+            if(!mw){
+               await helper('amniotic_fluid_index','create',tracker_id,'amniotic_fluid_index',amniotic_fluid_index,date);
+            }else{
+             await helper('amniotic_fluid_index','update',tracker_id,'amniotic_fluid_index',amniotic_fluid_index,date);
+            }  
+         }
+
+         if(blood_sugar_level){
+            let mw = await helper('blood_sugar_level','findFirst',tracker_id,'blood_sugar',blood_sugar_level,date)
+            if(mw.success==false) throw new Error(mw.data)
+            if(!mw){
+               await helper('blood_sugar_level','create',tracker_id,'blood_sugar',blood_sugar_level,date);
+            }else{
+             await helper('blood_sugar_level','update',tracker_id,'blood_sugar',blood_sugar_level,date);
+            }  
+         }
+
+
+         if(thyroid_function){
+            let mw = await helper('thyroid_function','findFirst',tracker_id,'thyroid',thyroid_function,date)
+            if(mw.success==false) throw new Error(mw.data)
+            if(!mw){
+               await helper('thyroid_function','create',tracker_id,'thyroid',thyroid_function,date);
+            }else{
+             await helper('thyroid_function','update',tracker_id,'thyroid',thyroid_function,date);
+            }  
+         }
+
+
+         if(haemoglobin_level){
+            let mw = await helper('haemoglobin_level','findFirst',tracker_id,'haemoglobin',haemoglobin_level,date)
+            if(mw.success==false) throw new Error(mw.data)
+            if(!mw){
+               await helper('haemoglobin_level','create',tracker_id,'haemoglobin',haemoglobin_level,date);
+            }else{
+             await helper('haemoglobin_level','update',tracker_id,'haemoglobin',haemoglobin_level,date);
+            }  
+         }
+
+
         res //if found the returns all the details
             .status(200)
-            .send({ success: true, message: "Permit details are ", data: details });
+            .send({ success: true, message: "Details updated", data: req.body });
     } catch (err) { //if any error accours in the fetching of permit details
         res
             .status(200)
-            .send({ success: false, message: "Error in fetching permit details", data: err });
+            .send({ success: false, message: "Error in updating stat details", data: err });
     } finally {
         await prisma.$disconnect()
     }
