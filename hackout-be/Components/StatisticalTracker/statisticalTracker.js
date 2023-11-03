@@ -1,11 +1,16 @@
 const express = require("express");
 const axios = require("axios");
 const { PrismaClient } = require("@prisma/client");
+const helper = require("./Components/helper");
 const prisma = new PrismaClient();
 
 module.exports = async (req, res) => {
   const patient_id =req.body.patient_id;
   // const tracker_id =req.body.tracker_id;
+  const o_date = req.body.date || null
+  const parts = o_date.split('/');
+  const date = `${parts[2]}-${parts[0]}-${parts[1]} 00:00:00`;
+
   const maternal_weight=req.body.maternal_weight || null;
   const blood_pressure=req.body.blood_pressure || null;
   const fetal_movement=req.body.fetal_movement || null;
@@ -30,30 +35,25 @@ module.exports = async (req, res) => {
                 .send({ success: false, message: "No such patient details exists" });
             return;
         }
-        const tracker_id=patient.tracker_id;
-    //     if(details.link_permit_to_purchase){
-    //     details.link_permit_to_purchase = await Promise.all(details.link_permit_to_purchase.map(async (link) => {
-    //         try {
-    //           const a = await prisma.purchase_orders.findUnique({
-    //             where: {
-    //               pk_purchase_order_id: link.fk_purchase_order_id,
-    //             },
-    //           });
-    //           return !a.is_deleted ? link : null;
-    //         } catch (error) {
-    //           throw error;
-    //         }
-    //       }))
-    //       details.link_permit_to_purchase = details.link_permit_to_purchase.filter(link => link !== null);
-    // }
-    const tracker_details=await prisma.tracker.update({
-      where:{
-        pk_tracker_id: tracker_id
-      },
-
-
-      
-    })
+        const tracker_id=patient.fk_tracker_id;
+        if(maternal_weight){
+           let mw = await helper('maternal_weight','findFirst',tracker_id,'maternal_weight',maternal_weight,date)
+           if(mw.success==false) throw new Error(mw.data)
+           if(!mw){
+              await helper('maternal_weight','create',tracker_id,'maternal_weight',maternal_weight,date);
+           }else{
+            await helper('maternal_weight','update',tracker_id,'maternal_weight',maternal_weight,date);
+           }  
+        }
+        if(blood_pressure){
+            let mw = await helper('blood_pressure','findFirst',tracker_id,'bloodpr',maternal_weight,date)
+            if(mw.success==false) throw new Error(mw.data)
+            if(!mw){
+               await helper('blood_pressure','create',tracker_id,'bloodpr',maternal_weight,date);
+            }else{
+             await helper('blood_pressure','update',tracker_id,'bloodpr',maternal_weight,date);
+            }  
+         }
         res //if found the returns all the details
             .status(200)
             .send({ success: true, message: "Permit details are ", data: details });
