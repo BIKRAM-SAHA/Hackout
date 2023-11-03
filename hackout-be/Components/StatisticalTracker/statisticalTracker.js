@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
   // const tracker_id =req.body.tracker_id;
   const o_date = req.body.date || null
   const parts = o_date.split('/');
-  const date = `${parts[2]}-${parts[0]}-${parts[1]} 00:00:00`;
+  const date = `${parts[2]}-${parts[0]}-${parts[1]}`;
 
   const maternal_weight=req.body.maternal_weight || null;
   const blood_pressure=req.body.blood_pressure || null;
@@ -50,6 +50,24 @@ module.exports = async (req, res) => {
             if(mw.success==false) throw new Error(mw.data)
             if(!mw){
                await helper('blood_pressure','create',tracker_id,'bloodpr',maternal_weight,date);
+            }else{
+             await helper('blood_pressure','update',tracker_id,'bloodpr',maternal_weight,date);
+            }  
+         }
+         if(fetal_movement){
+            let mw = await helper('fetal_movement','findFirst',tracker_id,'movement',maternal_weight,date)
+            if(mw.success==false) throw new Error(mw.data)
+            if(!mw){
+               await helper('fetal_movement','create',tracker_id,'movement',maternal_weight,date);
+            }else{
+             await helper('fetal_movement','update',tracker_id,'movement',maternal_weight,date);
+            }  
+         }
+         if(fetal_heart_rate){
+            let mw = await helper('fetal_heart_rate','findFirst',tracker_id,'fetal_heart_rate',maternal_weight,date)
+            if(mw.success==false) throw new Error(mw.data)
+            if(!mw){
+               await helper('fetal_heart_rate','create',tracker_id,'fetal_heart_rate',maternal_weight,date);
             }else{
              await helper('blood_pressure','update',tracker_id,'bloodpr',maternal_weight,date);
             }  

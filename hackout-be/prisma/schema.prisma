@@ -136,7 +136,7 @@ model disease {
 model maternal_weight {
   pk_mw      Int      @id @default(autoincrement())
   tracker_id Int
-  date       DateTime @default(now())
+  date       DateTime @db.Date
   weight     String
 
   tracker tracker @relation(fields: [tracker_id], references: [pk_tracker_id])
@@ -145,7 +145,7 @@ model maternal_weight {
 model blood_pressure {
   pk_bp      Int      @id @default(autoincrement())
   tracker_id Int
-  date       DateTime @default(now())
+  date       DateTime @db.Date
   bloodpr    String
   tracker    tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
@@ -153,7 +153,7 @@ model blood_pressure {
 model fetal_movement {
   pk_fm      Int      @id @default(autoincrement())
   tracker_id Int
-  date       DateTime @default(now())
+  date       DateTime @db.Date
   movement   String
   tracker    tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
@@ -161,7 +161,7 @@ model fetal_movement {
 model fetal_heart_rate {
   pk_fhr           Int      @id @default(autoincrement())
   tracker_id       Int
-  date             DateTime @default(now())
+  date             DateTime @db.Date
   fetal_heart_rate String
   tracker          tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
@@ -169,7 +169,7 @@ model fetal_heart_rate {
 model waist_circumference {
   pk_wc         Int      @id @default(autoincrement())
   tracker_id    Int
-  date          DateTime @default(now())
+  date          DateTime @db.Date
   circumference String
   tracker       tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
@@ -177,7 +177,7 @@ model waist_circumference {
 model amniotic_fluid_index {
   pk_afx               Int      @id @default(autoincrement())
   tracker_id           Int
-  date                 DateTime @default(now())
+  date                 DateTime @db.Date
   amniotic_fluid_index String
   tracker              tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
@@ -185,7 +185,7 @@ model amniotic_fluid_index {
 model blood_sugar_level {
   pk_bs       Int      @id @default(autoincrement())
   tracker_id  Int
-  date        DateTime @default(now())
+  date        DateTime @db.Date
   blood_sugar String
   tracker     tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
@@ -193,7 +193,7 @@ model blood_sugar_level {
 model thyroid_function {
   pk_tf      Int      @id @default(autoincrement())
   tracker_id Int
-  date       DateTime @default(now())
+  date       DateTime @db.Date
   thyroid    String
   tracker    tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
@@ -201,7 +201,7 @@ model thyroid_function {
 model haemoglobin_level {
   pk_hl       Int      @id @default(autoincrement())
   tracker_id  Int
-  date        DateTime @default(now())
+  date        DateTime @db.Date
   haemoglobin String
   tracker     tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
