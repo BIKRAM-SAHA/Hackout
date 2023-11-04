@@ -13,6 +13,7 @@ $rightPadding: calc(($fourthOfVW - $containerSize) / 2);
   min-height: 100vh;
   .trackerLayout__content {
     flex-grow: 3;
+    display: flex;
   }
   .trackerLayout__calender-container {
     font-size: $containerFontSize;
