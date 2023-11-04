@@ -50,6 +50,7 @@ module.exports=async (req,res)=>{
       return;
     } 
     catch (err) {
+      console.log(err);
         await res
             .status(200)
             .send({ success: false, message: "Error in fetching links", data: err });
