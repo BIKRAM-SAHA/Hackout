@@ -1,7 +1,7 @@
 $background-color: #fafafa;
 
 //for responsive calculations
-$fourthOfVW: calc(100vw * 1 / 4);
+$fourthOfVW: calc(100vw / 4);
 $baseFontToWidthRatio: 0.037;
 $containerFontSize: calc($fourthOfVW * $baseFontToWidthRatio);
 $emMultiplierForContainerWidth: 23;
@@ -9,10 +9,11 @@ $containerSize: $containerFontSize * $emMultiplierForContainerWidth;
 $rightPadding: calc(($fourthOfVW - $containerSize) / 2);
 
 .trackerLayout {
+  flex-grow: 1;
   display: flex;
-  min-height: 100vh;
+  // background-color: $background-color;
   .trackerLayout__content {
-    flex-grow: 3;
+    flex-grow: 1;
     display: flex;
   }
   .trackerLayout__calender-container {
@@ -21,16 +22,13 @@ $rightPadding: calc(($fourthOfVW - $containerSize) / 2);
     //w = 322px, font = 0.73rem
     // 322/312=1.03 0.73/0.7=1.04
 
-    position: relative;
     display: flex;
-    min-height: 100vh;
-    flex-grow: 1;
     background-color: $background-color;
     padding: 0 2rem;
     .trackerLayout__relative {
-      position: relative;
+      // position: relative;
       .trackerLayout__fixed {
-        position: fixed;
+        // position: fixed;
         right: $rightPadding;
         margin-top: 2rem;
         display: flex;

@@ -11,6 +11,7 @@ import { ProtectedRoute } from "./module/common/ProtectedRoute/ProtectedRoute";
 import { AuthProvider } from "./module/common/hooks/useAuth";
 import NutrientTrackerPage from "./module/NutrientTrackerPage/NutrientTrackerPage";
 import StatisticalTrackerPage from "./module/StatisticalTrackerPage/StatisticalTrackerPage";
+import "./App.scss";
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(
@@ -27,61 +28,63 @@ function App() {
     >
       <Router>
         <AuthProvider>
-          <NavbarRouteLayout>
-            <Routes>
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/" element={<LandingPage />} />
-              <Route
-                path="/statisticalTracker"
-                element={
-                  <ProtectedRoute>
-                    <TrackerLayout>
-                      <StatisticalTrackerPage />
-                    </TrackerLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/medicineTracker"
-                element={
-                  <ProtectedRoute>
-                    <TrackerLayout>
+          <div className="app-container">
+            <NavbarRouteLayout>
+              <Routes>
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<LandingPage />} />
+                <Route
+                  path="/statisticalTracker"
+                  element={
+                    <ProtectedRoute>
+                      <TrackerLayout>
+                        <StatisticalTrackerPage />
+                      </TrackerLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/medicineTracker"
+                  element={
+                    <ProtectedRoute>
+                      <TrackerLayout>
+                        <LandingPage />
+                      </TrackerLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/contractionTracker"
+                  element={
+                    <ProtectedRoute>
+                      <TrackerLayout>
+                        <LandingPage />
+                      </TrackerLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/nutrientTracker"
+                  element={
+                    <ProtectedRoute>
+                      <TrackerLayout>
+                        <NutrientTrackerPage />
+                      </TrackerLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/stressHandling"
+                  element={
+                    <ProtectedRoute>
                       <LandingPage />
-                    </TrackerLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/contractionTracker"
-                element={
-                  <ProtectedRoute>
-                    <TrackerLayout>
-                      <LandingPage />
-                    </TrackerLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/nutrientTracker"
-                element={
-                  <ProtectedRoute>
-                    <TrackerLayout>
-                      <NutrientTrackerPage />
-                    </TrackerLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/stressHandling"
-                element={
-                  <ProtectedRoute>
-                    <LandingPage />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </NavbarRouteLayout>
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </NavbarRouteLayout>
+          </div>
         </AuthProvider>
       </Router>
     </CalenderContext.Provider>
