@@ -11,6 +11,8 @@ import { ProtectedRoute } from "./module/common/ProtectedRoute/ProtectedRoute";
 import { AuthProvider } from "./module/common/hooks/useAuth";
 import NutrientTrackerPage from "./module/NutrientTrackerPage/NutrientTrackerPage";
 import StatisticalTrackerPage from "./module/StatisticalTrackerPage/StatisticalTrackerPage";
+import StressHandling from "./module/StressHandling/StressHandling";
+import MidFile from "./module/StressHandling/Components/MidFile/MidFile";
 import "./App.scss";
 
 function App() {
@@ -78,7 +80,23 @@ function App() {
                   path="/stressHandling"
                   element={
                     <ProtectedRoute>
-                      <LandingPage />
+                      <StressHandling />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/stressHandling/1"
+                  element={
+                    <ProtectedRoute>
+                      <MidFile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/stressHandling/2"
+                  element={
+                    <ProtectedRoute>
+                      <StressHandling />
                     </ProtectedRoute>
                   }
                 />
