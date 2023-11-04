@@ -12,7 +12,7 @@ module.exports=async (req,res)=>{
     catch (err) {
         await res
             .status(200)
-            .send({ success: false, message: "Error in fetching links", data: err });
+            .send({ success: false, message: "Error updating contraction data", data: err });
     }
     finally {
 
