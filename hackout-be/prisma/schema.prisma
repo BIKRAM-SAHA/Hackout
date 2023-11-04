@@ -50,8 +50,10 @@ model allergy {
 model standard_blood_pressure {
   pk_standard_blood_pressure_id Int      @id @unique(map: "pk_standard_blood_pressure_id") @default(autoincrement())
   fk_patient_id                 Int
-  min                           Decimal  @db.Decimal(10, 0)
-  max                           Decimal  @db.Decimal(10, 0)
+  min_sys                       Decimal  @db.Decimal(10, 0)
+  max_sys                       Decimal  @db.Decimal(10, 0)
+  min_dias                      Decimal  @db.Decimal(10, 0)
+  max_dias                      Decimal  @db.Decimal(10, 0)
   other_symptoms                String?  @db.VarChar(255)
   patient                       patient? @relation(fields: [fk_patient_id], references: [pk_patient_id], onDelete: Cascade, map: "map_standard_blood_pressure_id")
 
@@ -146,7 +148,8 @@ model blood_pressure {
   pk_bp      Int      @id @default(autoincrement())
   tracker_id Int
   date       DateTime @db.Date
-  bloodpr    Decimal  @db.Decimal(10, 0)
+  systolic   Decimal  @db.Decimal(10, 0)
+  diastolic  Decimal  @db.Decimal(10,0)
   tracker    tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 
@@ -178,7 +181,9 @@ model blood_sugar_level {
   pk_bs       Int      @id @default(autoincrement())
   tracker_id  Int
   date        DateTime @db.Date
-  blood_sugar Decimal  @db.Decimal(10, 0)
+  blood_sugar_fast  Decimal  @db.Decimal(10, 0)
+  blood_sugar_one_post_food Decimal @db.Decimal(10,0)
+  blood_sugar_2_post_food Decimal @db.Decimal(10,0)
   tracker     tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 

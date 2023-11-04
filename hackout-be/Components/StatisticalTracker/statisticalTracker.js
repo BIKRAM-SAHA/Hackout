@@ -2,6 +2,7 @@ const express = require("express");
 const axios = require("axios");
 const { PrismaClient } = require("@prisma/client");
 const check = require('./Functions/checkAlert')
+const checkbp = require('./Functions/checkAlertBloodPressure')
 const fetalMovement = require('./Functions/fetalMovement')
 const helper = require("./Functions/helper");
 const prisma = new PrismaClient();
@@ -14,7 +15,8 @@ module.exports = async (req, res) => {
   const date = `${parts[2]}-${parts[0]}-${parts[1]}`;
 
   const maternal_weight=req.body.maternal_weight || null;
-  const blood_pressure=req.body.blood_pressure || null;
+  const blood_pressure_sys=req.body.blood_pressure || null;
+  const blood_pressure_dias=req.body.blood_pressure || null;
   const fetal_movement=req.body.fetal_movement || null;
   const fetal_heart_rate=req.body.fetal_heart_rate || null;
   const amniotic_fluid_index=req.body.amniotic_fluid_index || null;
