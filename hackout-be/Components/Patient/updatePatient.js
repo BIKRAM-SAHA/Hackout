@@ -42,6 +42,7 @@ module.exports=async (req,res)=>{
     const week_no = parseInt(req.body.week_no) || null
     const trimester = parseInt(req.body.trimester) || null
     const allergy = req.body.allergy || []
+    const health = req.body.health || []
     const min_sys = parseFloat(req.body.min_sys) || null
     const max_sys = parseFloat(req.body.max_sys) || null
     const min_dias = parseFloat(req.body.min_dias) || null
@@ -75,6 +76,8 @@ module.exports=async (req,res)=>{
     }
     //now for allergy
     const allergy_str = allergy.join(', ');
+    //for health
+    const health_str = health.join(', ');
     await prisma.patient.updateMany({
         where: {
             pk_patient_id: patient_id
@@ -85,7 +88,8 @@ module.exports=async (req,res)=>{
             maternal_height : maternal_height || patient.maternal_height,
             week_no : week_no || patient.week_no,
             trimester: trimester || patient.trimester,
-            allergy: allergy_str || patient.allergy
+            allergy: allergy_str || patient.allergy,
+            health: health_str || patient.health
         }
 
     })
