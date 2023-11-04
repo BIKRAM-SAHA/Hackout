@@ -166,14 +166,6 @@ model fetal_heart_rate {
   tracker          tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 
-model waist_circumference {
-  pk_wc         Int      @id @default(autoincrement())
-  tracker_id    Int
-  date          DateTime @db.Date
-  circumference Decimal  @db.Decimal(10, 0)
-  tracker       tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
-}
-
 model amniotic_fluid_index {
   pk_afx               Int      @id @default(autoincrement())
   tracker_id           Int
@@ -212,7 +204,6 @@ model tracker {
   blood_pressure       blood_pressure[]
   fetal_movement       fetal_movement[]
   fetal_heart_rate     fetal_heart_rate[]
-  waist_circumference  waist_circumference[]
   amniotic_fluid_index amniotic_fluid_index[]
   blood_sugar_level    blood_sugar_level[]
   thyroid_function     thyroid_function[]
