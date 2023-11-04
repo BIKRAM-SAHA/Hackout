@@ -21,19 +21,19 @@ module.exports = async (schema_name, opn, trackerId, clause, value, date) => {
             })
         }
         else if (opn == 'update') {
-            result = await prisma.maternal_weight.updateMany({
+            result = await prisma[schema_name].updateMany({
                 where: {
                     tracker_id: trackerId,
                     date: new Date(date),
                 },
                 data: {
-                    weight: value,
+                    [clause]: value,
                 }
             })
         }
         return { success: true, data: result }
     }
     catch (err) {
-        return { success: false, data: err };
+        return { success: false, data: err.message };
     }
 }
