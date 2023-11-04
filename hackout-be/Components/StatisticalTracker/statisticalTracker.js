@@ -247,8 +247,8 @@ module.exports = async (req, res) => {
           date
         );
       }
-      dataArray = await arrayGenerator(track.fetal_movement);
-      let result = await fetalMovement(dataArray, fetal_movement, "movement");
+      dataArray = await arrayGenerator(track.fetal_movement,"movement");
+      let result = await fetalMovement(10,dataArray, fetal_movement);
       details = {
         ...details,
         fetal_movement: result,

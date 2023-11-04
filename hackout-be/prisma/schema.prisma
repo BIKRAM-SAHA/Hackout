@@ -12,6 +12,7 @@ model patient {
   phone                         String                             
   age                           String                          @db.VarChar(255)
   fk_tracker_id                 Int
+  allergy                       String?
   doctor_name                   String?                         @db.VarChar(255)
   email                         String                          @db.VarChar(255)
   fk_doctor_id                  Int?
@@ -28,7 +29,6 @@ model patient {
   map_contraction_patient       map_contraction_patient[]
   nutrition                     nutrition[]
   tracker                       tracker?                        @relation(fields: [fk_tracker_id], references: [pk_tracker_id], onDelete: Cascade, map: "patient_tracker_id")
-  allergy                       allergy[]
   standard_blood_pressure       standard_blood_pressure[]
   standard_fetal_heart_rate     standard_fetal_heart_rate[]
   standard_amniotic_fluid_index standard_amniotic_fluid_index[]
@@ -43,7 +43,7 @@ model allergy {
   pk_allergy_id Int      @id @unique(map: "pk_allergy_id") @default(autoincrement())
   fk_patient_id Int
   name          String   @db.VarChar(255)
-  patient       patient? @relation(fields: [fk_patient_id], references: [pk_patient_id], onDelete: Cascade, map: "map_patient_allergy_id")
+  //patient       patient? @relation(fields: [fk_patient_id], references: [pk_patient_id], onDelete: Cascade, map: "map_patient_allergy_id")
 
   @@index([fk_patient_id], map: "map_patient_allergy_id")
 }

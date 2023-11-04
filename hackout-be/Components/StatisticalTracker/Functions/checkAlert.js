@@ -19,7 +19,6 @@ async function calculateMovingAverage(dataPoints, window_size) {
 module.exports = async (window_size = 3, threshold, standard_min, standard_max, dataPoints, newData) => {
     try {
         if (newData < standard_min || newData > standard_max) {
-            console.log('emergency deteted')
             return 'emergency';
         }
         if (dataPoints.length - 1 !== 0) {

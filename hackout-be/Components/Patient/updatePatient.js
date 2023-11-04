@@ -1,20 +1,30 @@
 const express = require("express");
 const secret='MamaLearnz'
 const jwt = require('jsonwebtoken');
-const AccessToken=require('../../JWT/accesstoken')
 const { PrismaClient }=require('@prisma/client')
 const prisma = new PrismaClient()
-const helper = async(schema_name,minval,maxval,patient_id)=>{
+const helper = async(schema_name,clause1,minval,clause2,maxval,patient_id,func)=>{
     try{
-    await prisma[schema_name].updateMany({
-        where: {
-          fk_patient_id: patient_id,
-        },
+    if(func=='create'){
+    await prisma[schema_name].create({
         data: {
-           min:minval,
-           max:maxval
+           fk_patient_id: patient_id,
+           [clause1]:minval,
+           [clause2]:maxval
         },
       })
+    }
+    else if(func=='update'){
+            await prisma[schema_name].updateMany({
+                where: {
+                  fk_patient_id: patient_id,
+                },
+                data: {
+                   [clause1]:minval,
+                   [clause2]:maxval
+                },
+              })
+    }
     }
     catch(error){
         return {success:false,data:error}
@@ -50,11 +60,21 @@ module.exports=async (req,res)=>{
     const patient = await prisma.patient.findFirst({
         where :{
             pk_patient_id: patient_id
+        },
+        include:{
+          standard_amniotic_fluid_index:true,
+          standard_blood_pressure:true,
+          standard_blood_sugar_levels:true,
+          standard_fetal_heart_rate:true,
+          standard_haemoglobin_level:true,
+          standard_thyroid_function:true,
         }
     })
     if(!patient){
         return res.status(200).send({success:false,message:"Patient Invalid",data:{patient_id}})
     }
+    //now for allergy
+    const allergy_str = allergy.join(', ');
     await prisma.patient.updateMany({
         where: {
             pk_patient_id: patient_id
@@ -65,10 +85,11 @@ module.exports=async (req,res)=>{
             maternal_height : maternal_height || patient.maternal_height,
             week_no : week_no || patient.week_no,
             trimester: trimester || patient.trimester,
+            allergy: allergy_str || patient.allergy
         }
 
     })
-
+    if(standard_blood_pressure.length!=0){
     await prisma.standard_blood_pressure.updateMany({
         where: {
           fk_patient_id: patient_id,
@@ -79,18 +100,43 @@ module.exports=async (req,res)=>{
           min_dias: min_dias,
           max_dias: max_dias,
         },
-      });
-
-      var result = await helper('fetal_heart_rate',min_fhr,max_fhr,patient_id)
+      })
+    }else{
+        await prisma.standard_blood_pressure.create({
+            data: {
+              fk_patient_id: patient_id,
+              min_sys: min_sys,
+              max_sys: max_sys,
+              min_dias: min_dias,
+              max_dias: max_dias,
+            },
+          })       
+    }
+//update if already exists
+      let result
+      let func = (standard_fetal_heart_rate.length==0) ? 'create' : 'update' 
+      result = await helper('standard_fetal_heart_rate','min',min_fhr,'max',max_fhr,patient_id,func)
       if(result.success==false) throw new Error(result.data)
-      result = await helper('amniotic_fluid_index',min_afi,max_afi,patient_id)
+
+      func = (standard_amniotic_fluid_index.length==0) ? 'create' : 'update'
+      result = await helper('standard_amniotic_fluid_index','min',min_afi,'max',max_afi,patient_id,func)
+      if(result.success==false) throw new Error(result.data)
+      
+      func = (standard_blood_sugar_levels.length==0) ? 'create' : 'update'
+      result = await helper('standard_blood_sugar_levels','blood_sugar_min',min_bs,'blood_sugar_max',max_bs,patient_id,func)
+      if(result.success==false) throw new Error(result.data)
+      
+      func = (standard_tyroid_function.length==0) ? 'create' : 'update'
+      result = await helper('standard_tyroid_function','min',min_tsh,'max',max_tsh,patient_id,func)
+      if(result.success==false) throw new Error(result.data)
+      
+      func = (standard_haemoglobin_level.length==0) ? 'create' : 'update'
+      result = await helper('standard_haemoglobin_level','min',min_haemo,'max',max_haemo,patient_id,func)
       if(result.success==false) throw new Error(result.data)
     // console.log(doctor_values);
-    
-
     await res
     .status(200)
-    .send({ success: true, message: "Doctor Values", data: doctor_values });
+    .send({ success: true, message: "Patient details updated", data: req.body });
 
 }    
 catch (err) { //if any error occurs in fectching the document
