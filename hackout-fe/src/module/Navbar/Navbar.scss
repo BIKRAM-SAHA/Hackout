@@ -1,0 +1,24 @@
+$primaryTextColor: black;
+$background-color: #f4998d;
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: $background-color;
+  .logo {
+  }
+  .routes {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    padding: 0 1rem;
+    .links {
+      color: $primaryTextColor;
+      text-decoration: none;
+      &:visited {
+        color: $primaryTextColor;
+      }
+    }
+  }
+}

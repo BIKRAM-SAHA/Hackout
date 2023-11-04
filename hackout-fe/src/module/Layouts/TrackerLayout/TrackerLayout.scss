@@ -1,0 +1,25 @@
+$background-color: #f4998d;
+
+.trackerLayout {
+  display: flex;
+  min-height: 100vh;
+  .trackerLayout__content {
+    background-color: black;
+    flex-grow: 2;
+  }
+  .trackerLayout__calender-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    flex-grow: 1;
+    background-color: $background-color;
+    padding: 0 2rem;
+
+    font-size: 1rem;
+    .trackerLayout__calender {
+      position: fixed;
+      right: 1rem;
+    }
+  }
+}
