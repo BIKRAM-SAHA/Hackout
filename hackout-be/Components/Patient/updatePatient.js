@@ -4,17 +4,28 @@ const jwt = require('jsonwebtoken');
 const AccessToken=require('../../JWT/accesstoken')
 const { PrismaClient }=require('@prisma/client')
 const prisma = new PrismaClient()
-const helper = async(schema_name,clause1,minval,clause2,maxval,patient_id)=>{
+const helper = async(schema_name,clause1,minval,clause2,maxval,patient_id,func)=>{
     try{
-    await prisma[schema_name].updateMany({
-        where: {
-          fk_patient_id: patient_id,
-        },
+    if(func=='create'){
+    await prisma[schema_name].create({
         data: {
+           fk_patient_id: patient_id,
            [clause1]:minval,
            [clause2]:maxval
         },
       })
+    }
+    else if(func=='update'){
+            await prisma[schema_name].updateMany({
+                where: {
+                  fk_patient_id: patient_id,
+                },
+                data: {
+                   [clause1]:minval,
+                   [clause2]:maxval
+                },
+              })
+    }
     }
     catch(error){
         return {success:false,data:error}
@@ -100,20 +111,29 @@ module.exports=async (req,res)=>{
           })       
     }
 //update if already exists
-      var result
-      result = await helper('standard_fetal_heart_rate','min',min_fhr,'max',max_fhr,patient_id)
+      let result
+      let func = (standard_fetal_heart_rate.length==0) ? 'create' : 'update' 
+      result = await helper('standard_fetal_heart_rate','min',min_fhr,'max',max_fhr,patient_id,func)
       if(result.success==false) throw new Error(result.data)
-      result = await helper('standard_amniotic_fluid_index','min',min_afi,'max',max_afi,patient_id)
+
+      func = (standard_amniotic_fluid_index.length==0) ? 'create' : 'update'
+      result = await helper('standard_amniotic_fluid_index','min',min_afi,'max',max_afi,patient_id,func)
       if(result.success==false) throw new Error(result.data)
-      result = await helper('standard_blood_sugar_levels','blood_sugar_min',min_bs,'blood_sugar_max',max_bs,patient_id)
+      
+      func = (standard_blood_sugar_levels.length==0) ? 'create' : 'update'
+      result = await helper('standard_blood_sugar_levels','blood_sugar_min',min_bs,'blood_sugar_max',max_bs,patient_id,func)
       if(result.success==false) throw new Error(result.data)
-      result = await helper('standard_tyroid_function','min',min_tsh,'max',max_tsh,patient_id)
+      
+      func = (standard_tyroid_function.length==0) ? 'create' : 'update'
+      result = await helper('standard_tyroid_function','min',min_tsh,'max',max_tsh,patient_id,func)
       if(result.success==false) throw new Error(result.data)
-      result = await helper('standard_haemoglobin_level','min',min_haemo,'max',max_haemo,patient_id)
+      
+      func = (standard_haemoglobin_level.length==0) ? 'create' : 'update'
+      result = await helper('standard_haemoglobin_level','min',min_haemo,'max',max_haemo,patient_id,func)
       if(result.success==false) throw new Error(result.data)
     // console.log(doctor_values);
+      
     
-
     await res
     .status(200)
     .send({ success: true, message: "Doctor Values", data: doctor_values });
