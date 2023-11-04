@@ -15,20 +15,14 @@ function StatisticalTrackerPage() {
   return (
     <div className="outer">
       <div className="container">
-        <Card />
-        <Card />
-      </div>
-      <div className="container">
-        <Card />
-        <Card />
-      </div>
-      <div className="container">
-        <Card />
-        <Card />
-      </div>
-      <div className="container">
-        <Card />
-        <Card />
+        <Card header="Maternal Weight Gain" label1="Weight" />
+        <Card header="Fetal Movement" label1="Movement" />
+        <Card header="Blood Pressure" label1="Systolic" label2="Diastolic" />
+        <Card header="Fetal Heart Rate" label1="Heart Rate" />
+        <Card header="Amniotic Fluid Index" label1="AMI" />
+        <Card header="Blood Sugar Levels" label1="Sugar Levels" />
+        <Card header="Thyroid Function" label1="Value" />
+        <Card header="Haemoglobin Levels" label1="level" />
       </div>
     </div>
   );
