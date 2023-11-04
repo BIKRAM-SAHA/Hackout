@@ -2,7 +2,8 @@ $primaryTextColor: #c2185b;
 $secondaryTextColor: white;
 $background-color: #ffcdd2;
 $visitedColor: #c2185b;
-$navbarTextColor: #c2185b;
+$navbarTextColor:  #C2185B;
+$logoTextColor:  #800000;
 
 .navbar {
   position: sticky;
@@ -18,10 +19,12 @@ $navbarTextColor: #c2185b;
     text-decoration: none;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 1rem;
+    font-size: 2rem;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
+    margin-top: -0.3rem;
     line-height: normal;
+    color: $logoTextColor;
   }
   .routes {
     display: flex;
@@ -42,7 +45,7 @@ $navbarTextColor: #c2185b;
       &:visited.active {
         background-color: $visitedColor;
         padding-top: 1rem;
-        padding-bottom: 1.7rem;
+        padding-bottom: 1.62rem;
         padding-left: 1rem;
         padding-right: 1rem;
         flex-shrink: 0;
