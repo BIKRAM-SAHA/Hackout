@@ -1,19 +1,66 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import pluses from "../../assets/pluses.svg";
 import "./NutrientTrackerPage.scss";
 import Tab from "./components/Tab/Tab";
 import FoodTab from "./components/FoodTab/FoodTab";
 import FavouritesTab from "./components/FavouritesTab/FavouritesTab";
 import DishesTab from "./components/DishesTab/DishesTab";
+import Card from "./components/Card/Card";
+import { Modal } from "../common/Modal/Modal";
+import CalenderContext from "../common/contexts/CalenderContext";
 
 const tabs = {
   Foods: { label: "Foods", component: <FoodTab /> },
   Favourites: { label: "Favourites", component: <FavouritesTab /> },
-  Dishes: { label: "Dishes", component: <DishesTab /> },
+  Explore: { label: "Explore", component: <DishesTab /> },
 };
 
 function NutrientTrackerPage() {
+  const [searchText, setSearchText] = useState();
   const [activeTab, setActiveTab] = useState(tabs.Foods.label);
+  const [modalFoodType, setModalFoodType] = useState(null);
+  const [addedFood, setAddedFood] = useState({
+    breakfast: [],
+    lunch: [],
+    dinner: [],
+    snacks: [],
+  });
+  const { selectedDate } = useContext(CalenderContext);
+
+  const onSave = () => {
+    setModalFoodType(null);
+  };
+
+  const fetchFoodForSelectedDate = async (selectedDate) => {
+    //perform axios call and get all saved food from db
+  };
+  const searchRecipeFromText = async (text) => {
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_BASE_URL_EDAMAM}?type=public&app_id=${
+        import.meta.env.VITE_EDAMAM_APP_ID
+      }&app_key=${import.meta.env.VITE_EDAMAM_APP_KEY}&q=${text}`,
+      headers: {
+        "Edamam-Account-User": `${import.meta.env.VITE_EDAMAM_USER_ID}`,
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchFoodForSelectedDate(selectedDate);
+  }, [selectedDate]);
+
   return (
     <div className="nutrient-tracker__container">
       <div className="nutrient-tracker__profile">
@@ -34,8 +81,56 @@ function NutrientTrackerPage() {
         <div>
           <Tab activeTab={activeTab} setActiveTab={setActiveTab} tabs={tabs} />
         </div>
-        <div></div>
+        <div className="food">
+          <Card
+            header={"Breakfast"}
+            label1={"Breakfast"}
+            broderColor={"#E91E63"}
+            onClick={() => setModalFoodType("breakfast")}
+          />
+          <Card
+            header={"Lunch"}
+            label1={"Lunch"}
+            broderColor={"#F48FB1"}
+            onClick={() => setModalFoodType("lunch")}
+          />
+          <Card
+            header={"Dinner"}
+            label1={"Dinner"}
+            broderColor={"#12E5B0"}
+            onClick={() => setModalFoodType("dinner")}
+          />
+          <Card
+            header={"Snacks"}
+            label1={"Snacks"}
+            broderColor={"#B575E7"}
+            onClick={() => setModalFoodType("snacks")}
+          />
+        </div>
       </div>
+      <Modal isOpen={modalFoodType !== null}>
+        <div className="nutrient-tracker__modal">
+          <div className="modal__content">
+            <div className="title">{modalFoodType?.toUpperCase()}</div>
+            <div className="added-food">
+              {addedFood[modalFoodType]?.map((foodItem) => foodItem.label)}
+            </div>
+            <div className="search-food">
+              <input
+                type="text"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+              <button onClick={() => searchRecipeFromText(searchText)}>
+                Search
+              </button>
+            </div>
+          </div>
+          <button className="save" onClick={onSave}>
+            Save
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }

@@ -38,5 +38,31 @@ $primary-font: #c2185b;
   }
   .nutrient-tracker__content {
     display: flex;
+    justify-content: space-evenly;
+    .food {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+}
+
+.nutrient-tracker__modal {
+  height: 20rem;
+  width: 20rem;
+  background-color: #fafafa;
+  display: flex;
+  flex-direction: column;
+  .modal__content {
+    flex-grow: 1;
+    padding: 1rem;
+    overflow-y: scroll;
+  }
+  .save {
+    width: 30%;
+    justify-self: flex-end;
+    align-self: flex-end;
+    margin: 1rem;
+    cursor: pointer;
   }
 }

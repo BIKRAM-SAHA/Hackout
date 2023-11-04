@@ -1,0 +1,33 @@
+$primary-pink: #ec407a;
+$secondary-pink: #f48fb1;
+$trail-color: #f2f5fc;
+
+.CircularProgressbar {
+  width: 11rem;
+  height: 11rem;
+  .CircularProgressbar-path {
+    stroke: $primary-pink;
+  }
+  .CircularProgressbar-trail {
+    stroke: $trail-color;
+  }
+  .CircularProgressbar-text {
+    font-size: 1rem;
+  }
+}
+.val {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $primary-pink;
+}
+.unit {
+  font-size: 1rem;
+  color: $secondary-pink;
+}
+
+.food-tab {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+}

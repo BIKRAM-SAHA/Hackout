@@ -1,9 +1,14 @@
 import React from "react";
+import "./Tab.scss";
 
-function TabHeader({ activeTab, label }) {
-  console.log(label);
+function TabHeader({ activeTab, label, onClick }) {
   return (
-    <div className={`tab ${activeTab === label ? "active" : ""}`}>{label}</div>
+    <div
+      className={`tab ${activeTab === label ? "active" : ""}`}
+      onClick={onClick}
+    >
+      {label}
+    </div>
   );
 }
 

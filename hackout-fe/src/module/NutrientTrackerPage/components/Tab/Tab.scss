@@ -1,6 +1,23 @@
 $background-color: #f2f5fc;
+$muted-text: #9da8c3;
+$primary-pink: #e91e63;
+$pink-background: #ffcdd2;
 .tabs {
+  margin: 0 2rem;
   .tab-list {
+    display: flex;
     background-color: $background-color;
+    border-radius: 0.5rem;
+    padding: 0.2rem;
+    .tab {
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      color: $muted-text;
+      cursor: pointer;
+      &.active {
+        color: $primary-pink;
+        background-color: $pink-background;
+      }
+    }
   }
 }
