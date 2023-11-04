@@ -13,14 +13,16 @@ function TrackerLayout({ children }) {
     <div className="trackerLayout">
       <div className="trackerLayout__content">{children}</div>
       <div className="trackerLayout__calender-container">
-        <div className="trackerLayout__calender">
-          <Calender />
+        <div className="trackerLayout__relative">
+          <div className="trackerLayout__fixed">
+            <Calender />
+            <img
+              src={pregnantLady}
+              alt=""
+              className="trackerLayout__illustration"
+            />
+          </div>
         </div>
-        <img
-          src={pregnantLady}
-          alt=""
-          className="trackerLayout__illustration"
-        />
       </div>
     </div>
   );

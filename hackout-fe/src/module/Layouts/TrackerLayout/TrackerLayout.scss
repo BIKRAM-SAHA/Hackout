@@ -12,7 +12,6 @@ $rightPadding: calc(($fourthOfVW - $containerSize) / 2);
   display: flex;
   min-height: 100vh;
   .trackerLayout__content {
-    background-color: black;
     flex-grow: 3;
   }
   .trackerLayout__calender-container {
@@ -23,17 +22,19 @@ $rightPadding: calc(($fourthOfVW - $containerSize) / 2);
 
     position: relative;
     display: flex;
-    flex-direction: column;
     min-height: 100vh;
     flex-grow: 1;
     background-color: $background-color;
     padding: 0 2rem;
-    .trackerLayout__calender {
-      position: fixed;
-      right: $rightPadding;
+    .trackerLayout__relative {
+      position: relative;
+      .trackerLayout__fixed {
+        position: fixed;
+        right: $rightPadding;
+        top: 50vh;
+      }
     }
     .trackerLayout__illustration {
-      height: 407px;
       width: $containerSize;
     }
   }
