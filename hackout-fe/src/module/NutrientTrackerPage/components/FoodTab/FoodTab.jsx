@@ -1,6 +1,7 @@
 import React from "react";
-import { CircularProgressbar } from "react-circular-progressbar";
+import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import "./FoodTab.scss";
 
 function FoodTab() {
   const value = 1100;
@@ -9,14 +10,15 @@ function FoodTab() {
   // About 2,200 calories per day during the second trimester
   // About 2,400 calories per day during the third trimester
   return (
-    <div>
-      <CircularProgressbar
+    <div className="food-tab">
+      <CircularProgressbarWithChildren
         value={value}
         maxValue={max}
-        text={`${value}`}
-        strokeWidth={5}
-        background={"#EC407A"}
-      />
+        className="circular-calorie-bar"
+      >
+        <div className="val">{`${value}/${max}`}</div>
+        <div className="unit">kcal available</div>
+      </CircularProgressbarWithChildren>
     </div>
   );
 }

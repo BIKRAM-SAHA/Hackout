@@ -4,9 +4,9 @@ import { GridContainer, Outer } from "./MidFile.styles";
 
 function MidFile() {
   const [videos, setVideos] = useState([
+    { resourceId: "lpRqLh6IGN4" },
     { resourceId: "W1rhJu_mZ8U" },
-    { resourceId: "W1rhJu_mZ8U" },
-    { resourceId: "W1rhJu_mZ8U" },
+    { resourceId: "lpRqLh6IGN4" },
     { resourceId: "VYQvDoov69Q" },
     { resourceId: "VYQvDoov69Q" },
     { resourceId: "VYQvDoov69Q" },
@@ -19,7 +19,7 @@ function MidFile() {
     { resourceId: "VYQvDoov69Q" },
     { resourceId: "VYQvDoov69Q" },
     { resourceId: "VYQvDoov69Q" },
-    { resourceId: "VYQvDoov69Q" },
+    { resourceId: "lpRqLh6IGN4" },
     { resourceId: "VYQvDoov69Q" },
     { resourceId: "VYQvDoov69Q" },
     { resourceId: "VYQvDoov69Q" },
