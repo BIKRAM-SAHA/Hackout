@@ -9,6 +9,7 @@ import CalenderContext from "./module/common/contexts/CalenderContext";
 import TrackerLayout from "./module/Layouts/TrackerLayout/TrackerLayout";
 import { ProtectedRoute } from "./module/common/ProtectedRoute/ProtectedRoute";
 import { AuthProvider } from "./module/common/hooks/useAuth";
+import NutrientTrackerPage from "./module/NutrientTrackerPage/NutrientTrackerPage";
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(
@@ -65,7 +66,7 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <TrackerLayout>
-                      <LandingPage />
+                      <NutrientTrackerPage />
                     </TrackerLayout>
                   </ProtectedRoute>
                 }
