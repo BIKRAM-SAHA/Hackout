@@ -31,7 +31,10 @@ $rightPadding: calc(($fourthOfVW - $containerSize) / 2);
       .trackerLayout__fixed {
         position: fixed;
         right: $rightPadding;
-        top: 50vh;
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
       }
     }
     .trackerLayout__illustration {
