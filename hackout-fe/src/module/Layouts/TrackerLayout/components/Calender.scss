@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Open+Sans:wght@300;400&display=swap");
+
+/* --------------------------- Colors ------------------------- */
+$shadow-light: rgba(0, 0, 0, 0.1);
+
+// Calender Card
+$calendar: #ffffff;
+$calendar-title: #0061a8;
+$calendar-subtitle: #919191;
+$day-number: #f0fbfe;
+$today: #fbd48d;
+$selected-day: #8ce390;
+$day-number-disabled: #c1c1c1;
+$day-number-border: #9aceff;
+
+/* ---------------------- Width & Heights --------------------- */
+// Weather Card
+$card-width: 25em;
+$card-height: 25em;
+
+/* --------------------------- Mixins -------------------------- */
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  border-radius: 0.625em;
+  overflow: hidden;
+  box-shadow: 0.0625em 0.0625em 0.625em $shadow-light;
+}
+
+.calendar {
+  padding: 0.625em;
+  position: relative;
+  height: $card-height - 60;
+  width: $card-width;
+  background-color: $calendar;
+  font-family: "Open Sans", sans-serif;
+
+  .headerContainer {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+    .header {
+      width: 70%;
+      padding-top: 5px;
+      @include flex-center;
+      flex-direction: column;
+
+      &_title {
+        font-family: "Kaushan Script", cursive;
+        font-size: 28px;
+        letter-spacing: 2px;
+        line-height: 1;
+        color: $calendar-title;
+      }
+
+      &_subtitle {
+        font-size: 14px;
+        color: $calendar-subtitle;
+      }
+    }
+  }
+
+  .days-of-week {
+    padding: 0.625em;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-column-gap: 1.125em;
+
+    .day-name {
+      color: $calendar-title;
+    }
+  }
+
+  .days {
+    padding: 0.625em;
+    display: grid;
+    grid-template-columns: repeat(7, 35px);
+    grid-column-gap: 1.125em;
+    grid-row-gap: 0.3125em;
+
+    .day-number {
+      @include flex-center;
+      min-height: 2.1875em;
+      border-radius: 100%;
+      background-color: $day-number;
+      transition: all 0.4s ease-in-out;
+      cursor: pointer;
+
+      &.today {
+        background-color: $today;
+      }
+      &.selected {
+        background-color: $selected-day;
+      }
+      &:hover {
+        border: 2px solid $day-number-border;
+        transform: scale(1.2);
+        background-color: transparent;
+      }
+      &:hover.today {
+        background-color: $today;
+      }
+      &:hover.selected {
+        background-color: $selected-day;
+      }
+
+      &_disabled {
+        pointer-events: none;
+        color: $day-number-disabled;
+        background: repeating-linear-gradient(
+          45deg,
+          $day-number,
+          $day-number 5px,
+          #ffffff 5px,
+          #ffffff 0.625em
+        );
+      }
+    }
+  }
+}
