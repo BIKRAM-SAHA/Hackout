@@ -6,9 +6,9 @@ const prisma = new PrismaClient()
 module.exports=async (req,res)=>{
     let browser;
     try {
-      const token = req.headers['authorization'];
-      const data=jwt.verify(token,secret);
-      const patient_id = data.id
+      // const token = req.headers['authorization'];
+      // const data=jwt.verify(token,secret);
+      const patient_id = 3 || data.id
       let query = req.body.searchQuery;
       let type = req.body.type; // type = exercise, yoga , music , motivational-video, tips , etc etc depending upon what backend sends us
       const patient = await prisma.patient.findFirst({
@@ -16,7 +16,6 @@ module.exports=async (req,res)=>{
           pk_patient_id : patient_id,
          }
       })
-      console.log(patient)
       if(!query){
         if(!type){
             return res.status(200).send({success:false,message:"Please provide type - exercise,yoga,music,motivatiional video,tips,etc",data:req.body})
@@ -38,7 +37,10 @@ module.exports=async (req,res)=>{
       const videoLinks = await page.$$eval('ytd-video-renderer', (videoRenderers) => {
         return videoRenderers.map((videoRenderer) => {
           const link = videoRenderer.querySelector('a#thumbnail')?.href;
-          return link;
+          // const videoId = link.split('v=')[1]; // Split the link and get the part after 'v='
+          // return videoId;
+          const videoId = link.split('watch?v=')[1].split('&pp=')[0]
+          return videoId
         });
       });
   
