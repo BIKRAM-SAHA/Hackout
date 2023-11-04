@@ -8,6 +8,8 @@ $background-color: #f4998d;
     flex-grow: 2;
   }
   .trackerLayout__calender-container {
+    font-size: 0.6rem;
+
     position: relative;
     display: flex;
     align-items: center;
@@ -15,8 +17,6 @@ $background-color: #f4998d;
     flex-grow: 1;
     background-color: $background-color;
     padding: 0 2rem;
-
-    font-size: 1rem;
     .trackerLayout__calender {
       position: fixed;
       right: 1rem;
