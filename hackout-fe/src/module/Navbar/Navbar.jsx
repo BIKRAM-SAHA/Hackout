@@ -1,7 +1,46 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import "./Navbar.scss";
 
 function Navbar() {
-  return <div>Navbar</div>;
+  const location = useLocation();
+  return (
+    <div className="navbar">
+      <div className="logo">LOGO</div>
+      <ul className="routes">
+        <li>
+          <Link
+            to={"/statisticalTracker"}
+            className={`links ${
+              location.pathname === "/statisticalTracker" ? "active" : ""
+            }`}
+          >
+            Statistical Tracker
+          </Link>
+        </li>
+        <li>
+          <Link to={"/contractionTracker"} className={`links`}>
+            Contraction Tracker
+          </Link>
+        </li>
+        <li>
+          <Link to={"/medicineTracker"} className={`links`}>
+            Medicine Tracker
+          </Link>
+        </li>
+        <li>
+          <Link to={"/nutrientTracker"} className={`links`}>
+            Nutrient Tracker
+          </Link>
+        </li>
+        <li>
+          <Link to={"/stressHandling"} className={`links`}>
+            Stress Handling
+          </Link>
+        </li>
+      </ul>
+    </div>
+  );
 }
 
 export default Navbar;
