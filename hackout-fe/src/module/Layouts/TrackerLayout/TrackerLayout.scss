@@ -1,25 +1,40 @@
-$background-color: #f4998d;
+$background-color: #fafafa;
+
+//for responsive calculations
+$fourthOfVW: calc(100vw * 1 / 4);
+$baseFontToWidthRatio: 0.037;
+$containerFontSize: calc($fourthOfVW * $baseFontToWidthRatio);
+$emMultiplierForContainerWidth: 23;
+$containerSize: $containerFontSize * $emMultiplierForContainerWidth;
+$rightPadding: calc(($fourthOfVW - $containerSize) / 2);
 
 .trackerLayout {
   display: flex;
   min-height: 100vh;
   .trackerLayout__content {
     background-color: black;
-    flex-grow: 2;
+    flex-grow: 3;
   }
   .trackerLayout__calender-container {
-    font-size: 0.6rem;
+    font-size: $containerFontSize;
+    //0.7*16 = 11.2px for 312px
+    //w = 322px, font = 0.73rem
+    // 322/312=1.03 0.73/0.7=1.04
 
     position: relative;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     min-height: 100vh;
     flex-grow: 1;
     background-color: $background-color;
     padding: 0 2rem;
     .trackerLayout__calender {
       position: fixed;
-      right: 1rem;
+      right: $rightPadding;
+    }
+    .trackerLayout__illustration {
+      height: 407px;
+      width: $containerSize;
     }
   }
 }

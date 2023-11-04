@@ -2,6 +2,7 @@ import React from "react";
 import { useContext } from "react";
 import CalenderContext from "../../common/contexts/CalenderContext";
 import Calender from "./components/Calender";
+import pregnantLady from "../../../assets/pregnant-lady-illustration.svg";
 import "./TrackerLayout.scss";
 
 function TrackerLayout({ children }) {
@@ -15,6 +16,11 @@ function TrackerLayout({ children }) {
         <div className="trackerLayout__calender">
           <Calender />
         </div>
+        <img
+          src={pregnantLady}
+          alt=""
+          className="trackerLayout__illustration"
+        />
       </div>
     </div>
   );
