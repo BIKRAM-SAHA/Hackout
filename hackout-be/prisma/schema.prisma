@@ -9,7 +9,7 @@ datasource db {
 
 model patient {
   pk_patient_id                 Int                             @id @unique(map: "pk_patient_id") @default(autoincrement())
-  phone                         Int                             
+  phone                         String                             
   age                           String                          @db.VarChar(255)
   fk_tracker_id                 Int
   doctor_name                   String?                         @db.VarChar(255)
