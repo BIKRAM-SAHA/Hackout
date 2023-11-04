@@ -1,7 +1,6 @@
 const express = require("express");
 const secret='MamaLearnz'
 const jwt = require('jsonwebtoken');
-const AccessToken=require('../../JWT/accesstoken')
 const { PrismaClient }=require('@prisma/client')
 const prisma = new PrismaClient()
 const helper = async(schema_name,clause1,minval,clause2,maxval,patient_id,func)=>{
@@ -74,6 +73,8 @@ module.exports=async (req,res)=>{
     if(!patient){
         return res.status(200).send({success:false,message:"Patient Invalid",data:{patient_id}})
     }
+    //now for allergy
+    const allergy_str = allergy.join(', ');
     await prisma.patient.updateMany({
         where: {
             pk_patient_id: patient_id
@@ -84,6 +85,7 @@ module.exports=async (req,res)=>{
             maternal_height : maternal_height || patient.maternal_height,
             week_no : week_no || patient.week_no,
             trimester: trimester || patient.trimester,
+            allergy: allergy_str || patient.allergy
         }
 
     })
@@ -132,11 +134,9 @@ module.exports=async (req,res)=>{
       result = await helper('standard_haemoglobin_level','min',min_haemo,'max',max_haemo,patient_id,func)
       if(result.success==false) throw new Error(result.data)
     // console.log(doctor_values);
-      
-    
     await res
     .status(200)
-    .send({ success: true, message: "Doctor Values", data: doctor_values });
+    .send({ success: true, message: "Patient details updated", data: req.body });
 
 }    
 catch (err) { //if any error occurs in fectching the document

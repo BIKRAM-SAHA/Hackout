@@ -10,15 +10,18 @@ const doctorStats = require("../Components/Doctor/doctorStats");
 const patientStats = require("../Components/Patient/patientStats");
 const patientContraction = require("../Components/Patient/patientContraction");
 const doctorContraction = require("../Components/Doctor/doctorContraction");
-
+const updatePatient = require("../Components/Patient/updatePatient")
+const fetchPatient = require("../Components/Patient/fetchPatientById")
 router.post('/patientSignUp',patient_signup);
-router.post('/doctorSignUp',doctor_signup);
 router.post('/patientLogin',patient_login);
-router.post('/doctorLogin',doctor_login);
-router.post('/doctorPatient',doctor_patient);
-router.post('/doctorStats',doctorStats);
-router.post('/doctorContraction',doctorContraction);
-router.post('/patientStats',patientStats);
+router.post('/fetchPatient',fetchPatient);
+router.post('/updatePatient',updatePatient);
+// router.post('/doctorSignUp',doctor_signup);
+// router.post('/doctorLogin',doctor_login);
+// router.post('/doctorPatient',doctor_patient);
+// router.post('/doctorStats',doctorStats);
+// router.post('/doctorContraction',doctorContraction);
+// router.post('/patientStats',patientStats);
 router.post('/patientContraction',patientContraction);
 
 
