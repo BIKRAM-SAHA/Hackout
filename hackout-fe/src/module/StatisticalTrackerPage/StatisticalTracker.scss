@@ -1,10 +1,6 @@
-$primaryTextColor: #c2185b;
-$secondaryTextColor: white;
-$background-color: #ffcdd2;
-$visitedColor: #c2185b;
-$navbarTextColor:  #C2185B;
-;
+$backgroundColor: #FAFAFA;
 
 .header {
-  // color: #ffcdd2;
+  background-color: $backgroundColor;
+  flex-grow: 1;
 }

@@ -3,6 +3,7 @@ $secondaryTextColor: white;
 $background-color: #ffcdd2;
 $visitedColor: #c2185b;
 $navbarTextColor:  #C2185B;
+$logoTextColor:  #800000;
 
 .navbar {
   display: flex;
@@ -15,10 +16,12 @@ $navbarTextColor:  #C2185B;
     text-decoration: none;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-style: normal;
     font-weight: 600;
+    margin-top: -0.3rem;
     line-height: normal;
+    color: $logoTextColor;
   }
   .routes {
     display: flex;

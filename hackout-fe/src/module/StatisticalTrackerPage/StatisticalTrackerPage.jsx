@@ -11,7 +11,7 @@ function StatisticalTrackerPage() {
   //     login({ name: "Bikram" });
   //   }, []);
 
-  return (<div className="header"></div>);
+  return (<div className="header">Helooo</div>);
 }
 
 export default StatisticalTrackerPage;
