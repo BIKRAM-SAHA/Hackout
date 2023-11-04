@@ -6,8 +6,11 @@ const prisma = new PrismaClient()
 module.exports=async (req,res)=>{
     let browser;
     try {
+      let patient_id = req.body.patient_id;
       let query = req.body.searchQuery;
       let type = req.body.type; // type = exercise, yoga , music , etc etc depending upon what backend sends us
+      //const patient_id = req.body.patient_id
+      
       if(!query){
         if(!type){
             // write the code 
