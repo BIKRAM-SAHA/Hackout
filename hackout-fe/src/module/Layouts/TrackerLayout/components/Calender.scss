@@ -16,7 +16,7 @@ $day-number-border: #9aceff;
 /* ---------------------- Width & Heights --------------------- */
 // Weather Card
 $card-width: 25em;
-$card-height: 25em;
+$card-height: 23em;
 
 /* --------------------------- Mixins -------------------------- */
 @mixin flex-center {
@@ -34,7 +34,7 @@ $card-height: 25em;
 .calendar {
   padding: 0.625em;
   position: relative;
-  height: $card-height - 60;
+  height: $card-height;
   width: $card-width;
   background-color: $calendar;
   font-family: "Open Sans", sans-serif;
@@ -52,14 +52,14 @@ $card-height: 25em;
 
       &_title {
         font-family: "Kaushan Script", cursive;
-        font-size: 28px;
+        font-size: 1.75em;
         letter-spacing: 2px;
         line-height: 1;
         color: $calendar-title;
       }
 
       &_subtitle {
-        font-size: 14px;
+        font-size: 0.875em;
         color: $calendar-subtitle;
       }
     }
@@ -79,13 +79,14 @@ $card-height: 25em;
   .days {
     padding: 0.625em;
     display: grid;
-    grid-template-columns: repeat(7, 35px);
+    grid-template-columns: repeat(7, 2.1875em);
     grid-column-gap: 1.125em;
     grid-row-gap: 0.3125em;
 
     .day-number {
       @include flex-center;
       min-height: 2.1875em;
+      width: 2.1875em;
       border-radius: 100%;
       background-color: $day-number;
       transition: all 0.4s ease-in-out;

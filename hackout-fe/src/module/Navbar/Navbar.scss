@@ -1,5 +1,5 @@
 $primaryTextColor: black;
-$secondaryTextColor: #f4796b;
+$secondaryTextColor: white;
 $background-color: #f4998d;
 
 .navbar {
@@ -17,7 +17,8 @@ $background-color: #f4998d;
     .links {
       color: $primaryTextColor;
       text-decoration: none;
-      &.active {
+      &.active,
+      &:visited.active {
         color: $secondaryTextColor;
       }
       &:visited {
