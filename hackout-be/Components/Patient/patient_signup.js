@@ -40,22 +40,24 @@ module.exports=async (req,res)=>{
         var patient_data=await prisma.patient.create({
             data:{
                 name:name,
-                age:age,
                 email:email,
                 password:hashed_pass
             }
         })
+        const track = await prisma.tracker.create();
         // console.log(data)
         const type_provided="patient"
         const token=await AccessToken(patient_data,type_provided)
         patient_data=await prisma.patient.update({
             data:{
-                token:token
+                token:token,
+                fk_tracker_id : track.pk_tracker_id,
             },
             where:{
                 pk_patient_id:patient_data.pk_patient_id
             }
         })
+
         
         res.status(200).send({ success: true, message: "Patient Successfully Created", data: patient_data });
         return;

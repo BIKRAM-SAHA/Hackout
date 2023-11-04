@@ -1,12 +1,14 @@
-const express = require("express");
+const secret='MamaLearnz'
+const jwt = require('jsonwebtoken');
 const puppeteer = require('puppeteer')
 const { PrismaClient }=require('@prisma/client')
 const prisma = new PrismaClient()
-
 module.exports=async (req,res)=>{
     let browser;
     try {
-      let patient_id = req.body.patient_id;
+      const token = req.headers['authorization'];
+      const data=jwt.verify(token,secret);
+      const patient_id = data.id
       let query = req.body.searchQuery;
       let type = req.body.type; // type = exercise, yoga , music , motivational-video, tips , etc etc depending upon what backend sends us
       const patient = await prisma.patient.findFirst({

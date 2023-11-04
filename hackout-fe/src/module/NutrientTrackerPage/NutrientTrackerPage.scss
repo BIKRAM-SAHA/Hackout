@@ -11,16 +11,32 @@ $primary-font: #c2185b;
   .nutrient-tracker__profile {
     width: 100%;
     background-color: $background-profile;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
     margin-top: 2rem;
     position: relative;
     padding: 2rem;
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 6rem;
+    .nutrient-tracker__profile--icon {
+      position: absolute;
+      left: 0;
+      height: 9rem;
+    }
     .nutrient-tracker__profile--image {
-      width: 17.56619rem;
-      height: 17.56619rem;
+      width: 10rem;
+      height: 10rem;
+      border-radius: 50%;
     }
     .nutrient-tracker__profile--details {
       font-size: 1.5rem;
       color: $primary-font;
     }
+  }
+  .nutrient-tracker__content {
+    display: flex;
   }
 }
