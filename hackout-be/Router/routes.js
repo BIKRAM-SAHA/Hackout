@@ -5,12 +5,11 @@ const medicineTracker = require("../Components/medicineTracker");
 const nutrients = require('../Components/NutriTrack/nutrition');
 const statisticalTracker = require("../Components/StatisticalTracker/statisticalTracker");
 const recommendations = require('../Components/Recommendations/rec_automation')
-router.post('/precautions',preg_breast);
+// router.post('/precautions',preg_breast);
 router.post('/medicineTracker',medicineTracker);
-router.post('/meal',nutrients);
+router.post('/nutrient',nutrients);
 router.post('/statisticalTracker',statisticalTracker);
 router.post('./VideoRecommendations',recommendations);
-router.post('/precautions',preg_breast);
-router.post('/medicineTracker',medicineTracker);
+// router.post('/precautions',preg_breast);
 
 module.exports=router

@@ -8,7 +8,8 @@ module.exports = async (req, res) => {
   if (drug_name === undefined || drug_name===null) {
     res
       .status(200)
-      .send({ success: false, message: "Parameter is empty", error: "drug_name length is 0" });
+      .send({ success: false, message: "Parameter is empty", error: "drug_name length is 0 received" });
+      
       return;
     }
 
