@@ -1,11 +1,35 @@
-$backgroundColor: #FFF;
+$backgroundColor: #fff;
 
 .card {
-    width: 26rem;
+  width: 26rem;
+  height: 6rem;
+  flex-shrink: 0;
+  border-radius: 0.95356rem;
+  background: $backgroundColor;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  display: flex;
+  .leftBorder {
+    width: 0.95719rem;
     height: 6rem;
     flex-shrink: 0;
-    border-radius: 0.95356rem;
-    background: $backgroundColor;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.95356rem 0rem 0rem 0.95356rem;
+    background: #f48fb1;
   }
-  
+  .message {
+    flex-shrink: 0;
+    color: #f48fb1;
+    font-size: 1.74819rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.03975rem;
+    margin-left: 1.5rem;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  .dropDown {
+    margin-top: auto;
+    margin-bottom: auto;
+    
+  }
+}
