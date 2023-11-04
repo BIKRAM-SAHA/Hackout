@@ -39,7 +39,7 @@ module.exports=async (req,res)=>{
           const link = videoRenderer.querySelector('a#thumbnail')?.href;
           // const videoId = link.split('v=')[1]; // Split the link and get the part after 'v='
           // return videoId;
-          const videoId = link.split('watch?v=')[1].split('&pp=')[0]
+          const videoId = link.split('watch?v=')[1]?.split('&pp=')[0]
           return videoId
         });
       });
