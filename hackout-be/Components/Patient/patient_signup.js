@@ -8,38 +8,32 @@ const prisma = new PrismaClient()
 
 module.exports=async (req,res)=>{
     const name=req.body.name
-    const age=req.body.age
+    const phone = req.body.phone
     const email=req.body.email
     const password=req.body.password
-    const doctor_name=req.body.doctor_name || null
-    var doctor_data=null
 
     try{
-        if(name===undefined || age===undefined || email===undefined || password===undefined){
+        if(name===undefined || phone===undefined || email===undefined || password===undefined){
             res
             .status(200)
             .send({ success: false, message: "One Mandatory value entered is Null"});
             return;
         }
-        const eml=await prisma.patient.findFirst({
+        var eml=await prisma.patient.findFirst({
             where:{
                 email:email,
             }
         })
+        eml=await prisma.patient.findFirst({
+            where:{
+                phone:phone,
+            }
+        })
 
         if(eml!==null){
-            res.status(200).send({success:false,message:"This email already exists"})
+            res.status(200).send({success:false,message:"Credentials already exist"})
             return
         }
-        // await Promise.all(
-        if(doctor_name!==null){
-            doctor_data=await prisma.doctor.findFirst({
-                where:{
-                    name:doctor_name
-                }
-            })
-        }
-        const doctor_id= doctor_data.pk_doctor_id
         // console.log(doctor_id)
         const salt=await bcrypt.genSalt(10)
         const hashed_pass=await bcrypt.hash(password,salt)
@@ -47,9 +41,7 @@ module.exports=async (req,res)=>{
             data:{
                 name:name,
                 age:age,
-                doctor_name:doctor_name || null,
                 email:email,
-                fk_doctor_id: doctor_id || null,
                 password:hashed_pass
             }
         })

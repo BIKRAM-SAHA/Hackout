@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
   }
   const o_date = req.body.date || null;
   const parts = o_date.split("/");
-  const date = `${parts[2]}-${parts[0]}-${parts[1]}`;
+  const date = `${parts[2]}-${parts[1]}-${parts[0]}`;
 
   const maternal_weight = req.body.maternal_weight || null;
   const blood_pressure_sys = req.body.blood_pressure_sys || null;
@@ -39,12 +39,36 @@ module.exports = async (req, res) => {
         pk_patient_id: patient_id,
       },
       include: {
-        standard_blood_pressure: true,
-        standard_fetal_heart_rate: true,
-        standard_amniotic_fluid_index: true,
-        standard_blood_sugar_levels: true,
-        standard_thyroid_function: true,
-        standard_haemoglobin_level: true,
+        standard_blood_pressure: {
+          orderBy:{
+            date: asc,
+          }
+        },
+        standard_fetal_heart_rate: {
+          orderBy:{
+            date: asc,
+          }
+        },
+        standard_amniotic_fluid_index: {
+          orderBy:{
+            date: asc,
+          }
+        },
+        standard_blood_sugar_levels: {
+          orderBy:{
+            date: asc,
+          }
+        },
+        standard_thyroid_function: {
+          orderBy:{
+            date: asc,
+          }
+        },
+        standard_haemoglobin_level: {
+          orderBy:{
+            date: asc,
+          }
+        },
       },
     });
 
