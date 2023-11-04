@@ -27,11 +27,11 @@ module.exports = async (window_size = 3, threshold_sys,threshold_dias, sys_stand
         }
 
         if (systolicDataPoints.length - 1 !== 0) {
-            let systolicDataPointsCopy = [...systolicDataPoints];
-            let diastolicDataPointsCopy = [...diastolicDataPoints];
+            let systolicDataPointsCopy = systolicDataPoints;
+            let diastolicDataPointsCopy = diastolicDataPoints;
 
-            systolicDataPointsCopy = await alterDataPoints(systolicDataPointsCopy, standard_min, standard_max);
-            diastolicDataPointsCopy = await alterDataPoints(diastolicDataPointsCopy, standard_min, standard_max);
+            systolicDataPointsCopy = await alterDataPoints(systolicDataPointsCopy, sys_standard_min, sys_standard_max);
+            diastolicDataPointsCopy = await alterDataPoints(diastolicDataPointsCopy, dias_standard_min, dias_standard_max);
 
             const systolicMovingAverages = await calculateMovingAverage(systolicDataPointsCopy, window_size);
             const diastolicMovingAverages = await calculateMovingAverage(diastolicDataPointsCopy, window_size);
@@ -48,6 +48,7 @@ module.exports = async (window_size = 3, threshold_sys,threshold_dias, sys_stand
         }
         return 'normal';
     } catch (err) {
+        console.log(err);
         return { success: false, data: err };
     }
 }
