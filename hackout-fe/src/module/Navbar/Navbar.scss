@@ -2,9 +2,12 @@ $primaryTextColor: #c2185b;
 $secondaryTextColor: white;
 $background-color: #ffcdd2;
 $visitedColor: #c2185b;
-$navbarTextColor:  #C2185B;
+$navbarTextColor: #c2185b;
 
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
   display: flex;
   justify-content: space-between;
   padding: 1rem;
