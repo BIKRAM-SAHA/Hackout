@@ -1,28 +1,54 @@
 $primaryTextColor: #c2185b;
 $secondaryTextColor: white;
 $background-color: #ffcdd2;
+$visitedColor: #c2185b;
+$navbarTextColor:  #C2185B;
+
+;
 
 .navbar {
   display: flex;
   justify-content: space-between;
   padding: 1rem;
+  height: 3.75rem;
+  flex-shrink: 0;
   background-color: $background-color;
   .logo {
+    text-decoration: none;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
   }
   .routes {
     display: flex;
-    gap: 1rem;
+    gap: 2.02rem;
     list-style: none;
     padding: 0 1rem;
     .links {
       color: $primaryTextColor;
       text-decoration: none;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      color: $navbarTextColor;
       &.active,
       &:visited.active {
+        background-color: $visitedColor;
+        padding-top: 1rem;
+        padding-bottom: 1.7rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        flex-shrink: 0;
         color: $secondaryTextColor;
       }
       &:visited {
-        color: $primaryTextColor;
+        color: $navbarTextColor;
       }
     }
   }
