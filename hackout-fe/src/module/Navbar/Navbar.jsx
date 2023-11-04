@@ -19,22 +19,42 @@ function Navbar() {
           </Link>
         </li>
         <li>
-          <Link to={"/contractionTracker"} className={`links`}>
+          <Link
+            to={"/contractionTracker"}
+            className={`links ${
+              location.pathname === "/contractionTracker" ? "active" : ""
+            }`}
+          >
             Contraction Tracker
           </Link>
         </li>
         <li>
-          <Link to={"/medicineTracker"} className={`links`}>
+          <Link
+            to={"/medicineTracker"}
+            className={`links ${
+              location.pathname === "/medicineTracker" ? "active" : ""
+            }`}
+          >
             Medicine Tracker
           </Link>
         </li>
         <li>
-          <Link to={"/nutrientTracker"} className={`links`}>
+          <Link
+            to={"/nutrientTracker"}
+            className={`links ${
+              location.pathname === "/nutrientTracker" ? "active" : ""
+            }`}
+          >
             Nutrient Tracker
           </Link>
         </li>
         <li>
-          <Link to={"/stressHandling"} className={`links`}>
+          <Link
+            to={"/stressHandling"}
+            className={`links ${
+              location.pathname === "/stressHandling" ? "active" : ""
+            }`}
+          >
             Stress Handling
           </Link>
         </li>
