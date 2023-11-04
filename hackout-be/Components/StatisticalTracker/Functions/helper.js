@@ -14,7 +14,8 @@ result = await prisma[schema_name].findFirst({
 else if(opn=='create'){
 result = await prisma[schema_name].create({
     data:{
-        [clause]:value,
+        tracker_id: trackerId,
+        [clause]: value,
         date : new Date(date),
     }
 })

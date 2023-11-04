@@ -19,9 +19,9 @@ async function calculateMovingAverage(dataPoints, window_size) {
     return movingAverages;
 }
 
-module.exports = async (window_size = 3, threshold, standard_min, standard_max, systolicDataPoints, diastolicDataPoints, newSystolic, newDiastolic) => {
+module.exports = async (window_size = 3, threshold_sys,threshold_dias, sys_standard_min, sys_standard_max, dias_standard_min, dias_standard_max, systolicDataPoints, diastolicDataPoints, newSystolic, newDiastolic) => {
     try {
-        if (newSystolic < standard_min || newSystolic > standard_max || newDiastolic < standard_min || newDiastolic > standard_max) {
+        if (newSystolic < sys_standard_min || newSystolic > sys_standard_max || newDiastolic < dias_standard_min || newDiastolic > dias_standard_max) {
             console.log('Emergency detected');
             return 'emergency';
         }
@@ -40,7 +40,7 @@ module.exports = async (window_size = 3, threshold, standard_min, standard_max, 
                 const systolicDiff = Math.abs(systolicMovingAverages[i] - systolicMovingAverages[i + 1]);
                 const diastolicDiff = Math.abs(diastolicMovingAverages[i] - diastolicMovingAverages[i + 1]);
 
-                if (systolicDiff > threshold || diastolicDiff > threshold) {
+                if (systolicDiff > threshold_sys || diastolicDiff > threshold_dias) {
                     console.log("Change in blood pressure pattern detected");
                     return 'alert';
                 }

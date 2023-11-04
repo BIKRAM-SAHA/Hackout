@@ -83,12 +83,8 @@ model standard_amniotic_fluid_index {
 model standard_blood_sugar_levels {
   pk_standard_blood_sugar_levels_id Int      @id @unique(map: "pk_standard_blood_sugar_levels_id") @default(autoincrement())
   fk_patient_id                     Int
-  before_meal_min                   Decimal  @db.Decimal(10, 0)
-  before_meal_max                   Decimal  @db.Decimal(10, 0)
-  hour_after_meal_min               Decimal  @db.Decimal(10, 0)
-  hour_after_meal_max               Decimal  @db.Decimal(10, 0)
-  two_hours_after_meal_min          Decimal  @db.Decimal(10, 0)
-  two_hours_after_meal_max          Decimal  @db.Decimal(10, 0)
+  blood_sugar_min                   Decimal  @db.Decimal(10, 0)
+  blood_sugar_max                   Decimal  @db.Decimal(10, 0)
   patient                           patient? @relation(fields: [fk_patient_id], references: [pk_patient_id], onDelete: Cascade, map: "map_standard_blood_sugar_levels_id")
 
   @@index([fk_patient_id], map: "map_standard_blood_sugar_levels_id")
@@ -181,9 +177,7 @@ model blood_sugar_level {
   pk_bs       Int      @id @default(autoincrement())
   tracker_id  Int
   date        DateTime @db.Date
-  blood_sugar_fast  Decimal  @db.Decimal(10, 0)
-  blood_sugar_one_post_food Decimal @db.Decimal(10,0)
-  blood_sugar_2_post_food Decimal @db.Decimal(10,0)
+  blood_sugar Decimal?  @db.Decimal(10, 0)
   tracker     tracker  @relation(fields: [tracker_id], references: [pk_tracker_id])
 }
 

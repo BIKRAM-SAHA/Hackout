@@ -5,6 +5,7 @@ const check = require('./Functions/checkAlert')
 const checkbp = require('./Functions/checkAlertBloodPressure')
 const fetalMovement = require('./Functions/fetalMovement')
 const helper = require("./Functions/helper");
+const maternlWeightCalc = require("./Functions/maternalWeightGain")
 const prisma = new PrismaClient();
 
 module.exports = async (req, res) => {
@@ -15,13 +16,12 @@ module.exports = async (req, res) => {
   const date = `${parts[2]}-${parts[0]}-${parts[1]}`;
 
   const maternal_weight=req.body.maternal_weight || null;
-  const blood_pressure_sys=req.body.blood_pressure || null;
-  const blood_pressure_dias=req.body.blood_pressure || null;
+  const blood_pressure_sys=req.body.blood_pressure_sys || null;
+  const blood_pressure_dias=req.body.blood_pressure_dias || null;
   const fetal_movement=req.body.fetal_movement || null;
   const fetal_heart_rate=req.body.fetal_heart_rate || null;
   const amniotic_fluid_index=req.body.amniotic_fluid_index || null;
   const blood_sugar_level=req.body.blood_sugar_level || null;
-  const blood_sugar_type = req.body.blood_sugar_type || null;
   const thyroid_function=req.body.thyroid_function || null;
   const haemoglobin_level=req.body.haemoglobin_level || null;
   let details
@@ -50,6 +50,7 @@ module.exports = async (req, res) => {
 
 
         if(maternal_weight){
+            let dataArray
            let mw = await helper('maternal_weight','findFirst',tracker_id,'maternal_weight',maternal_weight,date)
            if(mw.success==false) throw new Error(mw.data)
            if(!mw){
@@ -65,22 +66,67 @@ module.exports = async (req, res) => {
                 maternal_weight : maternal_weight,
             }
            })
+           const maternal_weight_arr = await prisma.tracker.findFirst({
+            where:{
+               pk_tracker_id:tracker_id
+            },
+            include:{
+              maternal_weight: true 
+            }
+         });
+           dataArray=await arrayGenerator(maternal_weight_arr.maternal_weight);
+           let result = await maternlWeightCalc(dataArray,maternal_weight)
+           details = {
+               ...details,
+               maternal_weight:result
+           }
         }
 
 
-        if(blood_pressure){
-            let thresh_bp_sys = 20
-            let thresh_bp_dys = 10
-            let dataArray
-            let mw = await helper('blood_pressure','findFirst',tracker_id,'bloodpr',blood_pressure,date)
-            if(mw.success==false) throw new Error(mw.data)
+        if(blood_pressure_sys && blood_pressure_dias){
+            let thresh_bp_sys = 0.25*blood_pressure_sys
+            let thresh_bp_dias = 0.25*blood_pressure_dias
+            let dataArray_sys, dataArray_dias
+            let mw = await prisma.blood_pressure.findFirst({
+                where:{
+                    tracker_id: tracker_id,
+                    date: new Date(date)
+                },
+            })
             if(!mw){
-               await helper('blood_pressure','create',tracker_id,'bloodpr',blood_pressure,date);
+                await prisma.blood_pressure.create({
+                    data:{
+                        tracker_id: tracker_id,
+                        systolic: blood_pressure_sys,
+                        diastolic:blood_pressure_dias,
+                        date: new Date(date)
+                    }
+                })
             }else{
-             await helper('blood_pressure','update',tracker_id,'bloodpr',blood_pressure,date);
+                await prisma.blood_pressure.update({
+                    where:{
+                        tracker_id:tracker_id,
+                        date:new Date(date),
+                    },
+                    data:{
+                        systolic: blood_pressure_sys,
+                        diastolic:blood_pressure_dias
+                    }
+                })
             }  
             //window_size = 3, threshold, standard_min, standard_max, dataPoints, newData
-            let result = check(3,thresh_bp,patient.standard_blood_pressure[0].min,patient.standard_blood_pressure[0].max,dataArray,blood_pressure)
+            const blood_pressure_details= prisma.tracker.findFirst({
+               where:{
+                  pk_tracker_id:tracker_id
+               },
+               include:{
+                 blood_pressure: true 
+               }
+            });
+            dataArray_sys=await arrayGenerator(blood_pressure_details.blood_pressure,'systolic');
+            dataArray_dias=await arrayGenerator(blood_pressure_details.blood_pressure,'diastolic');
+            let pr= a.standard_blood_pressure[0]
+            let result = await checkbp(3,thresh_bp_sys,thresh_bp_dias,pr.min_sys,pr.max_sys,pr.min_dias,pr.max_dias,dataArray_sys,dataArray_dias,blood_pressure_sys,blood_pressure_dias)
             details = {
                 ...details,
                 blood_pressure:result
@@ -96,12 +142,27 @@ module.exports = async (req, res) => {
                await helper('fetal_movement','create',tracker_id,'movement',fetal_movement,date);
             }else{
              await helper('fetal_movement','update',tracker_id,'movement',fetal_movement,date);
-            }  
+            }
+            const fetal_movement_details= prisma.tracker.findFirst({
+               where:{
+                  pk_tracker_id:tracker_id
+               },
+               include:{
+                 fetal_movement: true 
+               }
+            });
+
+            dataArray=await arrayGenerator(fetal_movement_details.fetal_movement);
+            let result=await fetalMovement(dataArray,fetal_movement);
+            details = {
+                ...details,
+                fetal_heart_rate:result
+            }
          }
 
 
          if(fetal_heart_rate){
-            let thresh_fhr=6
+            let thresh_fhr=0.25*fetal_heart_rate;
             let dataArray
             let mw = await helper('fetal_heart_rate','findFirst',tracker_id,'fetal_heart_rate',fetal_heart_rate,date)
             if(mw.success==false) throw new Error(mw.data)
@@ -109,8 +170,18 @@ module.exports = async (req, res) => {
                await helper('fetal_heart_rate','create',tracker_id,'fetal_heart_rate',fetal_heart_rate,date);
             }else{
              await helper('fetal_heart','update',tracker_id,'fetal_heart_rate',fetal_heart_rate,date);
-            }  
-            let result = check(3,thresh_fhr,patient.standard_fetal_heart_rate[0].min,patient.standard_fetal_heart_rate[0].max,dataArray,fetal_heart_rate)
+            }
+            const fetal_heart_rate_details= prisma.tracker.findFirst({
+               where:{
+                  pk_tracker_id:tracker_id
+               },
+               include:{
+                 fetal_heart_rate: true 
+               }
+            });
+
+            dataArray=await arrayGenerator(fetal_heart_rate_details.fetal_heart_rate);
+            let result = await check(3,thresh_fhr,patient.standard_fetal_heart_rate[0].min,patient.standard_fetal_heart_rate[0].max,dataArray,fetal_heart_rate)
             details = {
                 ...details,
                 fetal_heart_rate:result
@@ -118,7 +189,7 @@ module.exports = async (req, res) => {
          }
 
          if(amniotic_fluid_index){
-            let thresh_afi = 6
+            let thresh_afi = 0.25*amniotic_fluid_index;
             let dataArray
             let mw = await helper('amniotic_fluid_index','findFirst',tracker_id,'amniotic_fluid_index',amniotic_fluid_index,date)
             if(mw.success==false) throw new Error(mw.data)
@@ -127,7 +198,17 @@ module.exports = async (req, res) => {
             }else{
              await helper('amniotic_fluid_index','update',tracker_id,'amniotic_fluid_index',amniotic_fluid_index,date);
             }  
-            let result = check(3,thresh_afi,patient.standard_amniotic_fluid_index[0].min,patient.standard_amniotic_fluid_index[0].max,dataArray,amniotic_fluid_index)
+            const amniotic_fluid_index_details= prisma.tracker.findFirst({
+               where:{
+                  pk_tracker_id:tracker_id
+               },
+               include:{
+                 amniotic_fluid_index: true 
+               }
+            });
+
+            dataArray=await arrayGenerator(amniotic_fluid_index_details.amniotic_fluid_index);
+            let result =await check(3,thresh_afi,patient.standard_amniotic_fluid_index[0].min,patient.standard_amniotic_fluid_index[0].max,dataArray,amniotic_fluid_index)
             details = {
                 ...details,
                 amniotic_fluid_index:result
@@ -135,7 +216,7 @@ module.exports = async (req, res) => {
          }
 
          if(blood_sugar_level){ // check for before and after meal
-            let thresh_bs = 55
+            let thresh_bs = 0.25*blood_sugar_level;
             let dataArray
             let mw = await helper('blood_sugar_level','findFirst',tracker_id,'blood_sugar',blood_sugar_level,date)
             if(mw.success==false) throw new Error(mw.data)
@@ -144,25 +225,45 @@ module.exports = async (req, res) => {
             }else{
              await helper('blood_sugar_level','update',tracker_id,'blood_sugar',blood_sugar_level,date);
             } 
+            const blood_sugar_level_details= prisma.tracker.findFirst({
+               where:{
+                  pk_tracker_id:tracker_id
+               },
+               include:{
+                 blood_sugar_level: true 
+               }
+            });
+
+            dataArray=await arrayGenerator(blood_sugar_level_details.blood_sugar_level);  
             let result 
-            result = check(3,thresh_afi,patient.standard_amniotic_fluid_index[0].min,patient.standard_amniotic_fluid_index[0].max,dataArray,amniotic_fluid_index)
+            result =await check(3,thresh_bs,patient.standard_blood_sugar_levels[0].min,patient.standard_blood_sugar_levels[0].max,dataArray,blood_sugar_level)
             details = {
                 ...details,
-                amniotic_fluid_index:result
+                blood_sugar_levels:result
             } 
          }
 
 
          if(thyroid_function){
-            let thresh_tf
+            let thresh_tf=0.25*thyroid_function;
             let mw = await helper('thyroid_function','findFirst',tracker_id,'thyroid',thyroid_function,date)
             if(mw.success==false) throw new Error(mw.data)
             if(!mw){
                await helper('thyroid_function','create',tracker_id,'thyroid',thyroid_function,date);
             }else{
              await helper('thyroid_function','update',tracker_id,'thyroid',thyroid_function,date);
-            }  
-            let result = check(3,thresh_tf,patient.standard_thyroid_function[0].min,patient.standard_thyroid_function[0].max,dataArray,thyroid_function)
+            }
+            const thyroid_function_details= prisma.tracker.findFirst({
+               where:{
+                  pk_tracker_id:tracker_id
+               },
+               include:{
+                 thyroid_function: true 
+               }
+            });
+
+            dataArray=await arrayGenerator(thyroid_function_details.thyroid_function);  
+            let result =await check(3,thresh_tf,patient.standard_thyroid_function[0].min,patient.standard_thyroid_function[0].max,dataArray,thyroid_function)
             details = {
                 ...details,
                 thyroid_function:result,
@@ -171,7 +272,7 @@ module.exports = async (req, res) => {
 
 
          if(haemoglobin_level){
-            let thresh_hl=6
+            let thresh_hl=0.25*haemoglobin_level;
             let dataArray
             let mw = await helper('haemoglobin_level','findFirst',tracker_id,'haemoglobin',haemoglobin_level,date)
             if(mw.success==false) throw new Error(mw.data)
@@ -179,8 +280,18 @@ module.exports = async (req, res) => {
                await helper('haemoglobin_level','create',tracker_id,'haemoglobin',haemoglobin_level,date);
             }else{
              await helper('haemoglobin_level','update',tracker_id,'haemoglobin',haemoglobin_level,date);
-            }  
-            let result = check(3,thresh_hl,patient.standard_haemoglobin_level[0].min,patient.standard_haemoglobin_level[0].max,dataArray,haemoglobin_level)
+            }
+            const haemoglobin_level_details= prisma.tracker.findFirst({
+               where:{
+                  pk_tracker_id:tracker_id
+               },
+               include:{
+                 haemoglobin_level: true 
+               }
+            });
+
+            dataArray=await arrayGenerator(haemoglobin_level_details.haemoglobin_level);  
+            let result =await check(3,thresh_hl,patient.standard_haemoglobin_level[0].min,patient.standard_haemoglobin_level[0].max,dataArray,haemoglobin_level)
             details = {
                 ...details,
                 haemoglobin_level:result
@@ -190,7 +301,7 @@ module.exports = async (req, res) => {
 
         res //if found the returns all the details
             .status(200)
-            .send({ success: true, message: "Details updated", data: req.body });
+            .send({ success: true, message: "Details updated", data: details});
     } catch (err) { //if any error accours in the fetching of permit details
         res
             .status(200)
