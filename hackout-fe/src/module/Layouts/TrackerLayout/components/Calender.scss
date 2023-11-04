@@ -5,13 +5,13 @@ $shadow-light: rgba(0, 0, 0, 0.1);
 
 // Calender Card
 $calendar: #ffffff;
-$calendar-title: #0061a8;
+$calendar-title: #c2185b;
 $calendar-subtitle: #919191;
-$day-number: #f0fbfe;
-$today: #fbd48d;
-$selected-day: #8ce390;
+$day-number: #ffeff2;
+$today: #ffcdd2;
+$selected-day: #f48fb1;
 $day-number-disabled: #c1c1c1;
-$day-number-border: #9aceff;
+$day-number-border: #f48fb1;
 
 /* ---------------------- Width & Heights --------------------- */
 // Weather Card
@@ -38,6 +38,10 @@ $card-height: 23em;
   width: $card-width;
   background-color: $calendar;
   font-family: "Open Sans", sans-serif;
+  border-radius: 0.5rem;
+  box-shadow: 1px 1px 8px 0px #e7e7e8;
+  -webkit-box-shadow: 1px 1px 8px 0px #e7e7e8;
+  -moz-box-shadow: 1px 1px 8px 0px #e7e7e8;
 
   .headerContainer {
     display: flex;
@@ -94,9 +98,13 @@ $card-height: 23em;
 
       &.today {
         background-color: $today;
+        color: $calendar-title;
+        font-weight: 500;
       }
       &.selected {
         background-color: $selected-day;
+        color: $calendar-title;
+        font-weight: 600;
       }
       &:hover {
         border: 2px solid $day-number-border;

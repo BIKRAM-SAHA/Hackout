@@ -13,7 +13,7 @@ function Navbar() {
   
   return (
     <div className="navbar">
-      <div className="logo">LOGO</div>
+      <div className="logo">बधाई</div>
       <ul className="routes">
         {isLoggedIn ? (
           <>
