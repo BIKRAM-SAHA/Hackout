@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
     });
   }
   const o_date = req.body.date || null;
-  const parts = o_date.split("-");
+  const parts = o_date.split("/");
   const date = `${parts[2]}-${parts[1]}-${parts[0]}`;
 
   const maternal_weight = parseInt(req.body.maternal_weight) || null;
