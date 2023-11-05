@@ -27,7 +27,7 @@ function Navbar() {
                 Statistical Tracker
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to={"/contractionTracker"}
                 className={`links ${
@@ -36,8 +36,8 @@ function Navbar() {
               >
                 Contraction Tracker
               </Link>
-            </li>
-            <li>
+            </li> */}
+            {/* <li>
               <Link
                 to={"/medicineTracker"}
                 className={`links ${
@@ -46,7 +46,7 @@ function Navbar() {
               >
                 Medicine Tracker
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 to={"/nutrientTracker"}
