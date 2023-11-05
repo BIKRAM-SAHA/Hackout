@@ -36,7 +36,12 @@ function StatisticalTrackerPage() {
   const sendDataToBackend = async (selectedDate) => {
     try {
       handleChange("date",selectedDate)
-      const response = await axios.post("http://localhost:3000/statisticalTracker", userData);
+      let API_URL = `${import.meta.env.VITE_BASE_URL}/statisticalTracker`
+      const response = await axios.post(API_URL, userData);
+      response = response.data.data 
+      //API_URL = `${import.meta.env.VITE_BASE_URL}/email`
+      // const res = await axios.post("https://localhost:3000/email")
+
     } catch (error) {
       console.error("Error sending data:", error);
     }
