@@ -4,7 +4,7 @@ import pluses from "../../assets/pluses.svg";
 import "./NutrientTrackerPage.scss";
 import Tab from "./components/Tab/Tab";
 import FoodTab from "./components/FoodTab/FoodTab";
-import FavouritesTab from "./components/FavouritesTab/FavouritesTab";
+// import FavouritesTab from "./components/FavouritesTab/FavouritesTab";
 import DishesTab from "./components/DishesTab/DishesTab";
 import Card from "./components/Card/Card";
 import { Modal } from "../common/Modal/Modal";
@@ -12,13 +12,30 @@ import CalenderContext from "../common/contexts/CalenderContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
-const tabs = {
-  Foods: { label: "Foods", component: <FoodTab /> },
-  Favourites: { label: "Favourites", component: <FavouritesTab /> },
-  Explore: { label: "Explore", component: <DishesTab /> },
+const calculateCalorieTaken = (allFood) => {
+  let sum = 0;
+  const array = Object.values(allFood);
+  console.log(Object.values(allFood));
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array[i].length; j++) {
+      sum += array[i][j]?.recipe?.calories;
+    }
+  }
+  return Math.ceil(sum);
 };
 
 function NutrientTrackerPage() {
+  const getTotalCalorie = () => {
+    return totalCalories;
+  };
+  const tabs = {
+    Foods: {
+      label: "Foods",
+      component: <FoodTab getTotalCalorie={getTotalCalorie} />,
+    },
+    // Favourites: { label: "Favourites", component: <FavouritesTab /> },
+    Explore: { label: "Explore", component: <DishesTab /> },
+  };
   const [searchText, setSearchText] = useState("");
   const [activeTab, setActiveTab] = useState(tabs.Foods.label);
   const [modalFoodType, setModalFoodType] = useState(null);
@@ -29,8 +46,8 @@ function NutrientTrackerPage() {
     snacks: [],
   });
   const [searchResults, setSearchResults] = useState([]);
+  const [totalCalories, setTotalCalories] = useState(0);
   const { selectedDate } = useContext(CalenderContext);
-  console.log(addedFood);
   const onSave = () => {
     setModalFoodType(null);
     setSearchText("");
@@ -72,6 +89,9 @@ function NutrientTrackerPage() {
   useEffect(() => {
     fetchFoodForSelectedDate(selectedDate);
   }, [selectedDate]);
+  useEffect(() => {
+    setTotalCalories(calculateCalorieTaken(addedFood));
+  }, [addedFood]);
 
   return (
     <div className="nutrient-tracker__container">
@@ -91,7 +111,12 @@ function NutrientTrackerPage() {
       </div>
       <div className="nutrient-tracker__content">
         <div>
-          <Tab activeTab={activeTab} setActiveTab={setActiveTab} tabs={tabs} />
+          <Tab
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            tabs={tabs}
+            totalCalories={totalCalories}
+          />
         </div>
         <div className="food">
           <Card
