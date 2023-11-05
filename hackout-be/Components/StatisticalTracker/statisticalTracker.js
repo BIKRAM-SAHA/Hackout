@@ -22,18 +22,18 @@ module.exports = async (req, res) => {
     });
   }
   const o_date = req.body.date || null;
-  const parts = o_date.split("/");
+  const parts = o_date.split("-");
   const date = `${parts[2]}-${parts[1]}-${parts[0]}`;
 
-  const maternal_weight = req.body.maternal_weight || null;
-  const blood_pressure_sys = req.body.blood_pressure_sys || null;
-  const blood_pressure_dias = req.body.blood_pressure_dias || null;
-  const fetal_movement = req.body.fetal_movement || null;
-  const fetal_heart_rate = req.body.fetal_heart_rate || null;
-  const amniotic_fluid_index = req.body.amniotic_fluid_index || null;
-  const blood_sugar_level = req.body.blood_sugar_level || null;
-  const thyroid_function = req.body.thyroid_function || null;
-  const haemoglobin_level = req.body.haemoglobin_level || null;
+  const maternal_weight = parseInt(req.body.maternal_weight) || null;
+  const blood_pressure_sys = parseFloat(req.body.blood_pressure_sys) || null;
+  const blood_pressure_dias = parseFloat(req.body.blood_pressure_dias) || null;
+  const fetal_movement = parseFloat(req.body.fetal_movement) || null;
+  const fetal_heart_rate = parseFloat(req.body.fetal_heart_rate) || null;
+  const amniotic_fluid_index = parseFloat(req.body.amniotic_fluid_index) || null;
+  const blood_sugar_level = parseFloat(req.body.blood_sugar_level)|| null;
+  const thyroid_function = parseFloat(req.body.thyroid_function) || null;
+  const haemoglobin_level = parseFloat(req.body.haemoglobin_level) || null;
   let details;
   try {
     const patient = await prisma.patient.findFirst({

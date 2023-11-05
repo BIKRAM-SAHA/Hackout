@@ -37,8 +37,6 @@ function StatisticalTrackerPage() {
     try {
       handleChange("date",selectedDate)
       const response = await axios.post("http://localhost:3000/statisticalTracker", userData);
-      console.log(userData)
-      console.log(response)
     } catch (error) {
       console.error("Error sending data:", error);
     }
