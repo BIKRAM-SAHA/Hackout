@@ -9,6 +9,8 @@ import DishesTab from "./components/DishesTab/DishesTab";
 import Card from "./components/Card/Card";
 import { Modal } from "../common/Modal/Modal";
 import CalenderContext from "../common/contexts/CalenderContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
 const tabs = {
   Foods: { label: "Foods", component: <FoodTab /> },
@@ -17,7 +19,7 @@ const tabs = {
 };
 
 function NutrientTrackerPage() {
-  const [searchText, setSearchText] = useState();
+  const [searchText, setSearchText] = useState("");
   const [activeTab, setActiveTab] = useState(tabs.Foods.label);
   const [modalFoodType, setModalFoodType] = useState(null);
   const [addedFood, setAddedFood] = useState({
@@ -26,22 +28,31 @@ function NutrientTrackerPage() {
     dinner: [],
     snacks: [],
   });
+  const [searchResults, setSearchResults] = useState([]);
   const { selectedDate } = useContext(CalenderContext);
-
+  console.log(addedFood);
   const onSave = () => {
     setModalFoodType(null);
+    setSearchText("");
+    setSearchResults([]);
   };
 
   const fetchFoodForSelectedDate = async (selectedDate) => {
     //perform axios call and get all saved food from db
   };
-  const searchRecipeFromText = async (text) => {
+  const recordAddFood = async (item) => {
+    setAddedFood({
+      ...addedFood,
+      [modalFoodType]: [...addedFood[modalFoodType], item],
+    });
+  };
+  const searchRecipeFromText = async () => {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
       url: `${import.meta.env.VITE_BASE_URL_EDAMAM}?type=public&app_id=${
         import.meta.env.VITE_EDAMAM_APP_ID
-      }&app_key=${import.meta.env.VITE_EDAMAM_APP_KEY}&q=${text}`,
+      }&app_key=${import.meta.env.VITE_EDAMAM_APP_KEY}&q=${searchText}`,
       headers: {
         "Edamam-Account-User": `${import.meta.env.VITE_EDAMAM_USER_ID}`,
       },
@@ -51,6 +62,7 @@ function NutrientTrackerPage() {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
+        setSearchResults(response.data.hits);
       })
       .catch((error) => {
         console.log(error);
@@ -113,7 +125,9 @@ function NutrientTrackerPage() {
           <div className="modal__content">
             <div className="title">{modalFoodType?.toUpperCase()}</div>
             <div className="added-food">
-              {addedFood[modalFoodType]?.map((foodItem) => foodItem.label)}
+              {addedFood[modalFoodType]?.map((foodItem) => (
+                <div>{foodItem.recipe?.label}</div>
+              ))}
             </div>
             <div className="search-food">
               <input
@@ -121,14 +135,28 @@ function NutrientTrackerPage() {
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
               />
-              <button onClick={() => searchRecipeFromText(searchText)}>
-                Search
-              </button>
+              <button onClick={() => searchRecipeFromText()}>Search</button>
+              <div className="search-results">
+                {searchResults.map((item) => (
+                  <div className="recipe">
+                    <div className="label">{item.recipe?.label}</div>
+                    <div className="calories">
+                      {Math.ceil(item.recipe?.calories || 0)}kcal
+                    </div>
+                    <img src={item.recipe?.images?.THUMBNAIL?.url} alt="" />
+                    <FontAwesomeIcon
+                      icon={faCirclePlus}
+                      className="icon"
+                      onClick={() => recordAddFood(item)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
+            <button className="save" onClick={onSave}>
+              Save
+            </button>
           </div>
-          <button className="save" onClick={onSave}>
-            Save
-          </button>
         </div>
       </Modal>
     </div>
