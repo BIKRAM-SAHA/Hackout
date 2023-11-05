@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 import Arrow from "./dropDownArrow.svg";
 import { Outer } from "./Card.styles";
-function Card({ header, label1, label2=null , onValueChange=null}) {
+function Card({ header, label1, label2=null , onValueChange=null, sendDataToBackend=null}) {
   const [expandCard, setExpandCard] = useState(false);
   const [field1Value, setField1Value] = useState("");
   const [field2Value, setField2Value] = useState("");
@@ -57,7 +58,7 @@ function Card({ header, label1, label2=null , onValueChange=null}) {
                 />
               </div>
             )}
-            <button className="apply-button">Apply</button>
+            <button className="apply-button" onClick={sendDataToBackend}>Apply</button>
           </div>
         )}
       </div>
