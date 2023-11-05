@@ -5,7 +5,7 @@ import { BoxContainer, Input, Label, SubmitButton } from "./Login.styles";
 function Login() {
   return (
     <BoxContainer>
-      <div className="header">Signup</div>
+      <div className="header">Login</div>
       <Label htmlFor="name">Name</Label>
       <Input type="text" id="name" name="name" />
 
