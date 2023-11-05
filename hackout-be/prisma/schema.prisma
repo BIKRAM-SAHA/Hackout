@@ -13,6 +13,7 @@ model patient {
   age                           String                          @db.VarChar(255)
   fk_tracker_id                 Int
   allergy                       String?
+  health                        String?
   doctor_name                   String?                         @db.VarChar(255)
   email                         String                          @db.VarChar(255)
   fk_doctor_id                  Int?
