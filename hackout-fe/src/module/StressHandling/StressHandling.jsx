@@ -14,7 +14,7 @@ function StressHandling() {
         <Link
           to={"/stressHandling/1"}
           style={{ textDecoration: "none" }}
-          state={{ type: "Yoga" }}
+          state={{ type: "yoga" }}
         >
           <img src={YogaImage} height="100%" width="100%" />
           <label className="label">Yoga</label>
@@ -24,7 +24,7 @@ function StressHandling() {
         <Link
           to={"/stressHandling/1"}
           style={{ textDecoration: "none" }}
-          state={{ type: "Music" }}
+          state={{ type: "music" }}
         >
           <img src={Exercise} height="100%" width="100%" />
           <label className="label">Music</label>
@@ -34,7 +34,7 @@ function StressHandling() {
         <Link
           to={"/stressHandling/1"}
           style={{ textDecoration: "none" }}
-          state={{ type: "Exercise" }}
+          state={{ type: "exercise" }}
         >
           <img src={Music} height="100%" width="100%" />
           <label className="label">Exercise</label>
