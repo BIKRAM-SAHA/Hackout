@@ -5,21 +5,19 @@ import axios from "axios";
 
 function MidFile() {
   const location = useLocation();
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState();
 
   useEffect(() => {
     const render = async () => {
       const API_URL = `${import.meta.env.VITE_BASE_URL}/videos`;
       const options = {
-        params: {
-          patient_id: 3,
-          type: location.state.type,
-        },
+        patient_id: 3,
+        type: location.state.type,
       };
 
       try {
         const response = await axios.post(API_URL, options);
-        setVideos(response.data.items);
+        setVideos(response.data.data);
       } catch (error) {
         console.error("Error fetching videos:", error);
       }
@@ -31,18 +29,17 @@ function MidFile() {
   return (
     <Outer>
       <GridContainer>
-        {videos.map(
-          (video, index) =>
-            video && 
-            (
+        {videos &&
+          videos.map((video, index) =>
+            video!==null && (
               <li key={index}>
                 <iframe
-                  src={`https://www.youtube.com/embed/${video.resourceId}`}
+                  src={`https://www.youtube.com/embed/${video}`}
                   allowFullScreen="true"
                 ></iframe>
               </li>
             )
-        )}
+          )}
       </GridContainer>
     </Outer>
   );
