@@ -48,21 +48,53 @@ $primary-font: #c2185b;
 }
 
 .nutrient-tracker__modal {
-  height: 20rem;
+  height: 24rem;
   width: 20rem;
   background-color: #fafafa;
   display: flex;
   flex-direction: column;
   .modal__content {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     padding: 1rem;
-    overflow-y: scroll;
-  }
-  .save {
-    width: 30%;
-    justify-self: flex-end;
-    align-self: flex-end;
-    margin: 1rem;
-    cursor: pointer;
+    .title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .added-food {
+      margin-bottom: 0.6rem;
+    }
+    .search-food {
+      .search-results {
+        overflow-y: scroll;
+        height: 13rem;
+        .recipe {
+          padding: 0.2rem;
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          grid-template-rows: 1fr 3fr;
+          &:hover {
+            background-color: $background-profile;
+          }
+          .label {
+            font-weight: 500;
+          }
+          .icon {
+            font-size: 1.5rem;
+            align-self: center;
+            justify-self: center;
+          }
+        }
+      }
+    }
+    .save {
+      width: 30%;
+      justify-self: flex-end;
+      align-self: flex-end;
+      margin: 1rem;
+      cursor: pointer;
+    }
   }
 }

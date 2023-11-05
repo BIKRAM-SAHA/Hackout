@@ -3,8 +3,9 @@ import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "./FoodTab.scss";
 
-function FoodTab() {
-  const value = 1100;
+function FoodTab({ getTotalCalorie }) {
+  const totalCalorie = getTotalCalorie();
+  const value = totalCalorie;
   const max = 1800;
   //   About 1,800 calories per day during the first trimester
   // About 2,200 calories per day during the second trimester
