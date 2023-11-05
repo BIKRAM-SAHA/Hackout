@@ -92,14 +92,6 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route
-                  path="/stressHandling/2"
-                  element={
-                    <ProtectedRoute>
-                      <StressHandling />
-                    </ProtectedRoute>
-                  }
-                />
               </Routes>
             </NavbarRouteLayout>
           </div>

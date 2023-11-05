@@ -27,6 +27,10 @@ module.exports=async (req,res)=>{
         const allergy_arr = await patient.allergy.split(', ');
         patient.allergy = allergy_arr
     }
+    if(patient.health){
+        const health_arr = await patient.health.split(', ');
+        patient.health = health_arr
+    }
     res
     .status(200)
     .send({ success: true, message: "The patient details are as follows", data: patient });
